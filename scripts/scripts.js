@@ -1,7 +1,7 @@
 var images = [
-  ["robin/1.jpeg",
-  "robin/2.jpeg",
-  "robin/3.jpeg",
+  ["./robin/1.jpeg",
+  "./robin/2.jpeg",
+  "./robin/3.jpeg",
   "robin/4.jpeg",
   "robin/5.jpeg",
   "robin/6.jpeg",

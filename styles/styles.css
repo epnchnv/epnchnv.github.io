@@ -1,0 +1,135 @@
+/* Определяем блочную модель */
+html {
+  box-sizing: border-box;
+ }
+ 
+ *,
+ *::after,
+ *::before {
+  box-sizing: inherit;
+ }
+ 
+ /* Убираем стандартное подчёркивание у ссылок */
+ a {
+  text-decoration: none;
+ }
+ 
+ /* Устанавливаем минимальный размер экрана и добавляем фоновое изображение */
+ body {
+  min-height: 100vh;
+  background-color: #eee; /* Светло-серый фон */;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  font-family: "Montserrat", sans-serif; /* Используем шрифт Montserrat */
+ }
+ 
+ /* Стилизуем контейнер */
+ .container {
+  max-width: 1190px;
+  padding: 0 15px; /* Увеличиваем боковые отступы */
+  margin: 0 auto; /* Центрируем контейнер по горизонтали */
+ }
+ 
+ /* Стилизуем шапку сайта */
+ .header {
+  padding-top: 30px; /* Увеличиваем верхний отступ шапки, чтобы логотип и меню не прилипали к экрану */
+ }
+ 
+ /* Стилизуем внутренний контейнер шапки */
+ .header__inner {
+  display: flex; /* Выстраиваем элементы внутри контейнера в строку */
+  justify-content: space-between; /* Распределяем элементы по ширине контейнера */
+  align-items: center; /* Выравниваем элементы по вертикали */
+ }
+ 
+ /* Стилизуем логотип */
+ .logo {
+  width: 60 ;
+  height: 60px;
+  border-radius: 50%;
+ }
+ 
+ /* Стилизуем списки меню */
+ .menu__list {
+  display: flex; /* Отображаем элементы списка в строку */
+  list-style: none; /* Убираем стандартные маркеры (чёрные точки) */
+ }
+ 
+ /* Стилизуем пункты меню */
+ .menu__list-item {
+  margin-right: 20px; /* Добавляем отступ между пунктами меню */
+ }
+ 
+ /* Стилизуем ссылки в меню */
+ .menu__list-link {
+  padding: 10px 20px; /* Увеличиваем вертикальный и горизонтальный отступы */
+  font-size: 20px; /* Уменьшаем размер шрифта */
+  color: #2184a8; /* Устанавливаем цвет ссылок */
+  cursor: pointer; /* Задаём изменение вида курсора при наведении на пункты меню */
+  transition: all 0.3s; /* Добавляем плавное изменение стилей при наведении */
+ }
+ 
+ /* Добавляем стилизацию ссылок в меню при наведении курсора */
+ .menu__list-link:hover {
+  color: #eb3e30; /* Задаём изменение цвета ссылок при наведении курсора */
+ }
+ .robin-project {
+  display: flex; /* Применяем Flexbox */
+  justify-content: center; /* Центрирование содержимого по горизонтали */
+  padding: 10px;
+  position: relative;
+  
+ }
+ .button {
+  font-family: "helvetica neue", helvetica, sans-serif;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border: 2px solid rgba(202, 162, 226, 0.6);
+  background-color: rgba(239, 202, 237, 0.6);
+  color: rgb(234, 103, 201);
+  box-shadow: 1px 1px 2px rgba(202, 162, 226, 0.6);
+  border-radius: 10px;
+  padding: 10px 10px;
+  cursor: pointer;
+ }
+
+ .robin-sun {
+  display: flex; /* Выстраиваем элементы внутри контейнера в строку */
+  justify-content: space-between; /* Распределяем элементы по ширине контейнера */
+  align-items: center; /* Выравниваем элементы по вертикали */
+  padding: 10px;
+  position: relative;
+ }
+
+
+ .photo-robin {
+  position: absolute;
+  margin-right: 25px;
+  left: 15%;
+  top: 5px;
+  bottom: 5px;
+  right: 70%;
+  width: 600;
+  height: 600px;
+}
+.caption {
+  position: absolute;
+  right: 15%;
+  top: 200px;
+  bottom: 5px;
+  left: 50%;
+  margin-left: 25px;
+  border: 2px solid rgba(202, 162, 226, 0.6);
+  font-family: "helvetica neue", helvetica, sans-serif;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  background-color: rgba(239, 202, 237, 0.6);
+  color: rgb(234, 103, 201);
+  box-shadow: 1px 1px 2px rgba(202, 162, 226, 0.6);
+  border-radius: 10px;
+  padding: 90px 10px;
+  padding-bottom: 110px;
+  box-sizing: border-box;
+  text-align: center;
+}

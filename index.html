@@ -1,0 +1,53 @@
+<!-- Определяем тип HTML-документа для браузера -->
+<!DOCTYPE html>
+<!-- Задаём язык контента страницы (русский язык) -->
+<html lang="ru">
+ <head>
+   <!-- Устанавливаем кодировку символов -->
+   <meta charset="UTF-8" />
+   <!-- Добавляем настройку для адаптивности страницы на различных устройствах -->
+   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+   <!-- Прописываем заголовок страницы -->
+   <title>Мой первый сайт</title>
+   <!-- Подключаем через Google Fonts шрифт Montserrat. Ссылка для выбора шрифта: https://fonts.google.com/ -->
+   <link rel="preconnect" href="https://fonts.googleapis.com" />
+   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+   <link
+     href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+     rel="stylesheet"
+   />
+   <!-- Подключаем нормализацию стилей для единообразного отображения страницы в разных браузерах. Ссылка для подключения: https://cdnjs.com/libraries/normalize -->
+   <link
+     rel="stylesheet"
+     href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
+   />
+   <!-- Подключаем файл со стилями -->
+   <link rel="stylesheet" href="styles/styles.css" />
+   <link rel="shortcut icon" href="image/logo.jpeg">
+ </head>
+ <body>
+   <!-- Добавляем шапку сайта -->
+   <header class="header">
+     <!-- Добавляем контейнер -->
+     <div class="container">
+       <!-- Добавляем внутреннюю обёртку для выравнивания логотипа и меню -->
+       <div class="header__inner">
+         <!-- Создаём логотип сайта -->
+          <a href="./index.html">
+            <img class="logo" src="image/logo.jpeg" alt="Логотип" >
+           </a>
+         <!-- С помощью списка создаём навигационное меню -->
+         <nav class="menu">
+           <ul class="menu__list">
+             <li class="menu__list-item">
+               <a class="menu__list-link" href="./robin-project.html"">Robin project</a>
+            </li>
+           </ul>
+         </nav>
+       </div>
+     </div>
+   </header>
+   
+   <!-- Место для основного контента на сайте -->
+ </body>
+</html>

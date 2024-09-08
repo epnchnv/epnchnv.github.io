@@ -41,6 +41,7 @@ var images = [
 document.getElementById("my_button").addEventListener("click", function() {
    var i = Math.floor(Math.random()*17)%17;
   document.getElementById("my_image").src = images[0][i];
+  document.getElementById("my_image").className="photo-robin";
   document.getElementById("figcaption").innerHTML =images[1][i];
   document.getElementById("figcaption").className="caption"
 })

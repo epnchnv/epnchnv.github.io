@@ -34,6 +34,8 @@ html {
  /* Стилизуем шапку сайта */
  .header {
   padding-top: 30px; /* Увеличиваем верхний отступ шапки, чтобы логотип и меню не прилипали к экрану */
+  background-color: #e0dfdf; /* Светло-серый фон */;
+  padding-bottom: 30px; /* Увеличиваем верхний отступ шапки, чтобы логотип и меню не прилипали к экрану */
  }
  
  /* Стилизуем внутренний контейнер шапки */
@@ -77,8 +79,10 @@ html {
  .robin-project {
   display: flex; /* Применяем Flexbox */
   justify-content: center; /* Центрирование содержимого по горизонтали */
-  padding: 10px;
+  padding-top: 30px;
   position: relative;
+  padding-bottom: 30px;
+  
   
  }
  .button {
@@ -95,31 +99,25 @@ html {
  }
 
  .robin-sun {
+  max-width: 1190px;
+  padding: 0 50px; /* Увеличиваем боковые отступы */
+  margin: 0 auto; /* Центрируем контейнер по горизонтали */
   display: flex; /* Выстраиваем элементы внутри контейнера в строку */
   justify-content: space-between; /* Распределяем элементы по ширине контейнера */
   align-items: center; /* Выравниваем элементы по вертикали */
-  padding: 10px;
-  position: relative;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, auto));
+  gap: 10px;
  }
 
 
  .photo-robin {
-  position: absolute;
-  margin-right: 25px;
-  left: 15%;
-  top: 5px;
-  bottom: 5px;
-  right: 70%;
-  width: 600;
-  height: 600px;
+  width: 350px;
+  height: 450px;
+  
+    
 }
 .caption {
-  position: absolute;
-  right: 15%;
-  top: 200px;
-  bottom: 5px;
-  left: 50%;
-  margin-left: 25px;
   border: 2px solid rgba(202, 162, 226, 0.6);
   font-family: "helvetica neue", helvetica, sans-serif;
   letter-spacing: 1px;
@@ -128,8 +126,7 @@ html {
   color: rgb(234, 103, 201);
   box-shadow: 1px 1px 2px rgba(202, 162, 226, 0.6);
   border-radius: 10px;
-  padding: 90px 10px;
-  padding-bottom: 110px;
   box-sizing: border-box;
   text-align: center;
+  
 }

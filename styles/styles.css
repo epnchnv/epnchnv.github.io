@@ -112,8 +112,9 @@ html {
 
 
  .photo-robin {
-  width: 350px;
-  height: 450px;
+  width: 300px;
+  height: 400px;
+  
   
     
 }
@@ -129,4 +130,15 @@ html {
   box-sizing: border-box;
   text-align: center;
   
+}
+@media (max-width: 480px) {
+  .robin-sun {
+    width: 100%;
+    grid-template-rows: 50px 1fr auto;
+  }
+
+  }
+  .photo-robin {
+    height: 35vw;
+  }
 }

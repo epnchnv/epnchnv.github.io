@@ -131,13 +131,3 @@ html {
   text-align: center;
   
 }
-@media (max-width: 480px) {
-  .robin-sun {
-    width: 100%;
-    grid-template-rows: 50px 1fr auto;
-  }
-
-  }
-  .photo-robin {
-    height: 35vw;
-  }

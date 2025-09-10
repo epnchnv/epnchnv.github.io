@@ -1,16 +1,12 @@
-/* Блочная модель */
+/* --- Общие стили --- */
 html { box-sizing: border-box; }
 *, *::after, *::before { box-sizing: inherit; }
 
-/* Ссылки */
-a { text-decoration: none; }
-
-/* Body */
 body {
   min-height: 100vh;
-  background-color: #eee;
-  font-family: "Montserrat", sans-serif;
   margin: 0;
+  font-family: "Montserrat", sans-serif;
+  background-color: #eee;
 }
 
 /* Контейнер */
@@ -30,10 +26,19 @@ body {
   justify-content: space-between;
   align-items: center;
 }
-.logo { width: 60px; height: 60px; border-radius: 50%; }
+.logo {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+}
 
 /* Меню */
-.menu__list { display: flex; list-style: none; margin: 0; padding: 0; }
+.menu__list {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
 .menu__list-item { margin-right: 20px; }
 .menu__list-link {
   padding: 10px 20px;
@@ -78,15 +83,15 @@ body {
   text-align: center;
 }
 
-/* Контейнер для картинки и подписи */
+/* Контейнер для фото и подписи */
 .robin-center {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
-  max-width: 400px;   /* ограничение по ширине для больших экранов */
-  box-sizing: border-box;
+  max-width: 100%;   /* снимаем ограничение */
   padding: 0 10px;
+  box-sizing: border-box;
   margin: 0 auto;
 }
 
@@ -106,7 +111,6 @@ body {
   width: 100%;
   white-space: normal;
   word-break: break-word;
-  box-sizing: border-box;
   text-align: center;
   padding: 10px;
   margin-top: 10px;

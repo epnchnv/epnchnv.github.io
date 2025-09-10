@@ -1,175 +1,70 @@
-/* Определяем блочную модель */
-html {
-  box-sizing: border-box;
- }
+/* Блочная модель */
+html { box-sizing: border-box; }
+*, *::after, *::before { box-sizing: inherit; }
 
- *,
- *::after,
- *::before {
-  box-sizing: inherit;
- }
+/* Ссылки */
+a { text-decoration: none; }
 
- /* Убираем стандартное подчёркивание у ссылок */
- a {
-  text-decoration: none;
- }
-
- /* Устанавливаем минимальный размер экрана и добавляем фоновое изображение */
- body {
+/* Body */
+body {
   min-height: 100vh;
-  background-color: #eee; /* Светло-серый фон */;
+  background-color: #eee;
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
-  font-family: "Montserrat", sans-serif; /* Используем шрифт Montserrat */
- }
+  font-family: "Montserrat", sans-serif;
+  margin: 0;
+}
 
- /* Стилизуем контейнер */
- .container {
+/* Контейнер */
+.container {
   max-width: 1190px;
-  padding: 0 15px; /* Увеличиваем боковые отступы */
-  margin: 0 auto; /* Центрируем контейнер по горизонтали */
- }
+  padding: 0 15px;
+  margin: 0 auto;
+}
 
- /* Стилизуем шапку сайта */
- .header {
-  padding-top: 30px; /* Увеличиваем верхний отступ шапки, чтобы логотип и меню не прилипали к экрану */
-  background-color: #e0dfdf; /* Светло-серый фон */;
-  padding-bottom: 30px; /* Увеличиваем верхний отступ шапки, чтобы логотип и меню не прилипали к экрану */
- }
+/* Шапка */
+.header {
+  padding: 30px 0;
+  background-color: #e0dfdf;
+}
 
- /* Стилизуем внутренний контейнер шапки */
- .header__inner {
-  display: flex; /* Выстраиваем элементы внутри контейнера в строку */
-  justify-content: space-between; /* Распределяем элементы по ширине контейнера */
-  align-items: center; /* Выравниваем элементы по вертикали */
- }
+.header__inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
- /* Стилизуем логотип */
- .logo {
+/* Логотип */
+.logo {
   width: 60px;
   height: 60px;
   border-radius: 50%;
- }
+}
 
- /* Стилизуем списки меню */
- .menu__list {
-  display: flex; /* Отображаем элементы списка в строку */
-  list-style: none; /* Убираем стандартные маркеры (чёрные точки) */
- }
+/* Меню */
+.menu__list {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
 
- /* Стилизуем пункты меню */
- .menu__list-item {
-  margin-right: 20px; /* Добавляем отступ между пунктами меню */
- }
+.menu__list-item { margin-right: 20px; }
 
- /* Стилизуем ссылки в меню */
- .menu__list-link {
-  padding: 10px 20px; /* Увеличиваем вертикальный и горизонтальный отступы */
-  font-size: 20px; /* Уменьшаем размер шрифта */
-  color: #2184a8; /* Устанавливаем цвет ссылок */
-  cursor: pointer; /* Задаём изменение вида курсора при наведении на пункты меню */
-  transition: all 0.3s; /* Добавляем плавное изменение стилей при наведении */
- }
-
- /* Добавляем стилизацию ссылок в меню при наведении курсора */
- .menu__list-link:hover {
-  color: #eb3e30; /* Задаём изменение цвета ссылок при наведении курсора */
- }
- .robin-project {
-  display: flex; /* Применяем Flexbox */
-  justify-content: center; /* Центрирование содержимого по горизонтали */
-  padding-top: 30px;
-  position: relative;
-  padding-bottom: 30px;
-
-
- }
- .button {
-  font-family: "helvetica neue", helvetica, sans-serif;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  border: 2px solid rgba(202, 162, 226, 0.6);
-  background-color: rgba(239, 202, 237, 0.6);
-  color: rgb(234, 103, 201);
-  box-shadow: 1px 1px 2px rgba(202, 162, 226, 0.6);
-  border-radius: 10px;
-  padding: 10px 10px;
+.menu__list-link {
+  padding: 10px 20px;
+  font-size: 20px;
+  color: #2184a8;
   cursor: pointer;
- }
-
- .robin-sun {
-   display: grid;
-   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-   gap: 20px;
- }
-
-
-
- .photo-robin {
-  width: 300px;
-  height: 400px;
-
-
-
-}
-.caption {
-  border: 2px solid rgba(202, 162, 226, 0.6);
-  font-family: "helvetica neue", helvetica, sans-serif;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  background-color: rgba(239, 202, 237, 0.6);
-  color: rgb(234, 103, 201);
-  box-shadow: 1px 1px 2px rgba(202, 162, 226, 0.6);
-  border-radius: 10px;
-  box-sizing: border-box;
-  text-align: center;
-
+  transition: all 0.3s;
 }
 
-/* 📱 Планшеты и меньше */
-@media (max-width: 768px) {
-  .header__inner {
-    flex-direction: column;
-    align-items: flex-start;
-  }
+.menu__list-link:hover { color: #eb3e30; }
 
-  .menu__list {
-    flex-direction: column;
-    gap: 10px;
-    padding-left: 0;
-  }
-
-  .menu__list-item {
-    margin-right: 0;
-  }
-
-  .photo-robin {
-    width: 100%;
-    height: auto;
-  }
-}
-
-/* 📱 Мобильные */
-@media (max-width: 480px) {
-  .menu__list-link {
-    font-size: 16px;
-    padding: 8px 12px;
-  }
-
-  .caption {
-    font-size: 14px;
-    padding: 8px;
-  }
-
-  .button {
-    width: 100%;
-    text-align: center;
-  }
-}
-/* Бургер-кнопка */
+/* Бургер */
 .burger {
-  display: none; /* по умолчанию скрыта */
+  display: none;
   flex-direction: column;
   justify-content: space-between;
   width: 30px;
@@ -189,37 +84,79 @@ html {
   transition: all 0.3s ease;
 }
 
-/* Мобильный вид */
-@media (max-width: 768px) {
-  .burger {
-    display: flex;
-  }
+.burger.active span:nth-child(1) { transform: rotate(45deg) translateY(9px); }
+.burger.active span:nth-child(2) { opacity: 0; }
+.burger.active span:nth-child(3) { transform: rotate(-45deg) translateY(-9px); }
 
-  .menu {
-    display: none; /* скрыто по умолчанию */
-    width: 100%;
-  }
-
-  .menu.active {
-    display: block; /* показываем при клике */
-  }
-
-  .menu__list {
-    flex-direction: column;
-    gap: 10px;
-    padding: 15px 0;
-  }
+/* Основной блок */
+.robin-project {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  min-height: 60vh;
+  text-align: center;
 }
 
-/* Анимация бургер → крестик */
-.burger.active span:nth-child(1) {
-  transform: rotate(45deg) translateY(9px);
-}
-
-.burger.active span:nth-child(2) {
+/* Фото и подпись (эффект лотереи) */
+.photo-robin,
+.caption {
   opacity: 0;
+  transform: translateY(20px) scale(0.95);
+  transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
-.burger.active span:nth-child(3) {
-  transform: rotate(-45deg) translateY(-9px);
+/* Активное состояние */
+.photo-robin.active,
+.caption.active {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* Подпись */
+.caption {
+  border: 2px solid rgba(202, 162, 226, 0.6);
+  font-family: "helvetica neue", helvetica, sans-serif;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  background-color: rgba(239, 202, 237, 0.6);
+  color: rgb(234, 103, 201);
+  box-shadow: 1px 1px 2px rgba(202, 162, 226, 0.6);
+  border-radius: 10px;
+  padding: 10px;
+  text-align: center;
+  max-width: 90%;
+  word-wrap: break-word;
+  box-sizing: border-box;
+  margin-top: 10px;
+}
+
+/* Кнопка */
+.button {
+  font-family: "helvetica neue", helvetica, sans-serif;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border: 2px solid rgba(202, 162, 226, 0.6);
+  background-color: rgba(239, 202, 237, 0.6);
+  color: rgb(234, 103, 201);
+  box-shadow: 1px 1px 2px rgba(202, 162, 226, 0.6);
+  border-radius: 10px;
+  padding: 10px 20px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+/* Адаптив */
+@media (max-width: 768px) {
+  .header__inner { flex-direction: column; align-items: flex-start; }
+  .menu__list { flex-direction: column; gap: 10px; padding-left: 0; }
+  .menu__list-item { margin-right: 0; }
+  .burger { display: flex; }
+  .menu { display: none; width: 100%; }
+  .menu.active { display: block; }
+}
+
+@media (max-width: 480px) {
+  .menu__list-link { font-size: 16px; padding: 8px 12px; }
+  .caption { font-size: 14px; padding: 8px; max-width: 95%; }
 }

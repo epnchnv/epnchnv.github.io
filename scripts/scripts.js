@@ -45,3 +45,13 @@ document.getElementById("my_button").addEventListener("click", function() {
   document.getElementById("figcaption").innerHTML =images[1][i];
   document.getElementById("figcaption").className="caption"
 })
+// --- Новый код для бургер-меню ---
+const burger = document.querySelector(".burger");
+const menu = document.querySelector(".menu");
+
+if (burger && menu) {
+  burger.addEventListener("click", () => {
+    burger.classList.toggle("active");
+    menu.classList.toggle("active");
+  });
+}

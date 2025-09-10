@@ -2,18 +2,18 @@
 html {
   box-sizing: border-box;
  }
- 
+
  *,
  *::after,
  *::before {
   box-sizing: inherit;
  }
- 
+
  /* Убираем стандартное подчёркивание у ссылок */
  a {
   text-decoration: none;
  }
- 
+
  /* Устанавливаем минимальный размер экрана и добавляем фоновое изображение */
  body {
   min-height: 100vh;
@@ -23,46 +23,46 @@ html {
   background-size: cover;
   font-family: "Montserrat", sans-serif; /* Используем шрифт Montserrat */
  }
- 
+
  /* Стилизуем контейнер */
  .container {
   max-width: 1190px;
   padding: 0 15px; /* Увеличиваем боковые отступы */
   margin: 0 auto; /* Центрируем контейнер по горизонтали */
  }
- 
+
  /* Стилизуем шапку сайта */
  .header {
   padding-top: 30px; /* Увеличиваем верхний отступ шапки, чтобы логотип и меню не прилипали к экрану */
   background-color: #e0dfdf; /* Светло-серый фон */;
   padding-bottom: 30px; /* Увеличиваем верхний отступ шапки, чтобы логотип и меню не прилипали к экрану */
  }
- 
+
  /* Стилизуем внутренний контейнер шапки */
  .header__inner {
   display: flex; /* Выстраиваем элементы внутри контейнера в строку */
   justify-content: space-between; /* Распределяем элементы по ширине контейнера */
   align-items: center; /* Выравниваем элементы по вертикали */
  }
- 
+
  /* Стилизуем логотип */
  .logo {
-  width: 60 ;
+  width: 60px;
   height: 60px;
   border-radius: 50%;
  }
- 
+
  /* Стилизуем списки меню */
  .menu__list {
   display: flex; /* Отображаем элементы списка в строку */
   list-style: none; /* Убираем стандартные маркеры (чёрные точки) */
  }
- 
+
  /* Стилизуем пункты меню */
  .menu__list-item {
   margin-right: 20px; /* Добавляем отступ между пунктами меню */
  }
- 
+
  /* Стилизуем ссылки в меню */
  .menu__list-link {
   padding: 10px 20px; /* Увеличиваем вертикальный и горизонтальный отступы */
@@ -71,7 +71,7 @@ html {
   cursor: pointer; /* Задаём изменение вида курсора при наведении на пункты меню */
   transition: all 0.3s; /* Добавляем плавное изменение стилей при наведении */
  }
- 
+
  /* Добавляем стилизацию ссылок в меню при наведении курсора */
  .menu__list-link:hover {
   color: #eb3e30; /* Задаём изменение цвета ссылок при наведении курсора */
@@ -82,8 +82,8 @@ html {
   padding-top: 30px;
   position: relative;
   padding-bottom: 30px;
-  
-  
+
+
  }
  .button {
   font-family: "helvetica neue", helvetica, sans-serif;
@@ -99,24 +99,19 @@ html {
  }
 
  .robin-sun {
-  max-width: 1190px;
-  padding: 0 50px; /* Увеличиваем боковые отступы */
-  margin: 0 auto; /* Центрируем контейнер по горизонтали */
-  display: flex; /* Выстраиваем элементы внутри контейнера в строку */
-  justify-content: space-between; /* Распределяем элементы по ширине контейнера */
-  align-items: center; /* Выравниваем элементы по вертикали */
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(400px, auto));
-  gap: 10px;
+   display: grid;
+   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+   gap: 20px;
  }
+
 
 
  .photo-robin {
   width: 300px;
   height: 400px;
-  
-  
-    
+
+
+
 }
 .caption {
   border: 2px solid rgba(202, 162, 226, 0.6);
@@ -129,5 +124,102 @@ html {
   border-radius: 10px;
   box-sizing: border-box;
   text-align: center;
-  
+
+}
+
+/* 📱 Планшеты и меньше */
+@media (max-width: 768px) {
+  .header__inner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .menu__list {
+    flex-direction: column;
+    gap: 10px;
+    padding-left: 0;
+  }
+
+  .menu__list-item {
+    margin-right: 0;
+  }
+
+  .photo-robin {
+    width: 100%;
+    height: auto;
+  }
+}
+
+/* 📱 Мобильные */
+@media (max-width: 480px) {
+  .menu__list-link {
+    font-size: 16px;
+    padding: 8px 12px;
+  }
+
+  .caption {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  .button {
+    width: 100%;
+    text-align: center;
+  }
+}
+/* Бургер-кнопка */
+.burger {
+  display: none; /* по умолчанию скрыта */
+  flex-direction: column;
+  justify-content: space-between;
+  width: 30px;
+  height: 22px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.burger span {
+  display: block;
+  height: 4px;
+  width: 100%;
+  background-color: #2184a8;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+/* Мобильный вид */
+@media (max-width: 768px) {
+  .burger {
+    display: flex;
+  }
+
+  .menu {
+    display: none; /* скрыто по умолчанию */
+    width: 100%;
+  }
+
+  .menu.active {
+    display: block; /* показываем при клике */
+  }
+
+  .menu__list {
+    flex-direction: column;
+    gap: 10px;
+    padding: 15px 0;
+  }
+}
+
+/* Анимация бургер → крестик */
+.burger.active span:nth-child(1) {
+  transform: rotate(45deg) translateY(9px);
+}
+
+.burger.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.burger.active span:nth-child(3) {
+  transform: rotate(-45deg) translateY(-9px);
 }

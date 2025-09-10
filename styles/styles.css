@@ -86,10 +86,20 @@ body {
 /* Фото и подпись (лотерея) */
 .photo-robin,
 .caption {
-  opacity: 0;
-  transform: translateY(20px) scale(0.95);
-  transition: opacity 0.5s ease, transform 0.5s ease;
+  max-width: 90%;           /* Максимум 90% ширины экрана */
+  word-wrap: break-word;    /* Разбиваем длинные слова */
+  white-space: normal;      /* Позволяем перенос на новую строку */
+  box-sizing: border-box;
+  padding: 10px;
+  text-align: center;
+  border: 2px solid rgba(202, 162, 226, 0.6);
+  border-radius: 10px;
+  background-color: rgba(239, 202, 237, 0.6);
+  color: rgb(234, 103, 201);
+  margin-top: 10px;
+  font-size: 14px;          /* Можно уменьшить размер шрифта на мобильных */
 }
+
 .photo-robin.active,
 .caption.active {
   opacity: 1;
@@ -138,3 +148,15 @@ body {
   .menu__list-link { font-size: 16px; padding: 8px 12px; }
   .caption { font-size: 14px; padding: 8px; max-width: 95%; }
 }
+@media (max-width: 480px) {
+  .caption {
+    font-size: 12px;         /* чуть меньше шрифт */
+    max-width: 95%;          /* почти вся ширина экрана */
+    padding: 8px;
+  }
+  .photo-robin {
+    max-width: 90%;          /* картинка не вылезает за экран */
+    height: auto;
+  }
+}
+

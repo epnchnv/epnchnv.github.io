@@ -84,9 +84,20 @@ body {
 }
 
 /* Фото и подпись (лотерея) */
-.photo-robin,
+.photo-robin {
+  max-width: 90%;           /* Картинка не выходит за границы экрана */
+  width: 100%;              /* Адаптивная ширина */
+  height: auto;             /* Сохраняем пропорции */
+  box-sizing: border-box;
+  border-radius: 10px;
+  border: 2px solid rgba(202, 162, 226, 0.6);
+  background-color: rgba(239, 202, 237, 0.6);
+  margin-top: 10px;
+  display: block;
+}
+
 .caption {
-  max-width: 90%;           /* Максимум 90% ширины экрана */
+  max-width: 90%;           /* Максимум 90% ширины блока */
   word-wrap: break-word;    /* Разбиваем длинные слова */
   white-space: normal;      /* Позволяем перенос на новую строку */
   box-sizing: border-box;
@@ -97,27 +108,13 @@ body {
   background-color: rgba(239, 202, 237, 0.6);
   color: rgb(234, 103, 201);
   margin-top: 10px;
-  font-size: 14px;          /* Можно уменьшить размер шрифта на мобильных */
+  font-size: 14px;
 }
 
 .photo-robin.active,
 .caption.active {
   opacity: 1;
   transform: translateY(0) scale(1);
-}
-
-/* Подпись */
-.caption {
-  max-width: 90%;
-  word-wrap: break-word;
-  box-sizing: border-box;
-  border: 2px solid rgba(202, 162, 226, 0.6);
-  border-radius: 10px;
-  padding: 10px;
-  text-align: center;
-  background-color: rgba(239, 202, 237, 0.6);
-  color: rgb(234, 103, 201);
-  margin-top: 10px;
 }
 
 /* Кнопка */
@@ -144,19 +141,18 @@ body {
   .menu { display: none; width: 100%; }
   .menu.active { display: block; }
 }
+
 @media (max-width: 480px) {
   .menu__list-link { font-size: 16px; padding: 8px 12px; }
-  .caption { font-size: 14px; padding: 8px; max-width: 95%; }
-}
-@media (max-width: 480px) {
-  .caption {
-    font-size: 12px;         /* чуть меньше шрифт */
-    max-width: 95%;          /* почти вся ширина экрана */
-    padding: 8px;
-  }
+
   .photo-robin {
-    max-width: 90%;          /* картинка не вылезает за экран */
+    max-width: 95%;          /* почти вся ширина экрана */
     height: auto;
   }
-}
 
+  .caption {
+    font-size: 12px;         /* уменьшенный шрифт */
+    max-width: 95%;          /* почти вся ширина экрана */
+    padding: 8px;            /* отступы чуть меньше */
+  }
+}

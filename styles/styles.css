@@ -77,18 +77,23 @@ body {
   min-height: 60vh;
   text-align: center;
 }
+
+/* Контейнер для картинки и подписи */
 .robin-center {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
+  max-width: 400px;   /* ограничение по ширине для больших экранов */
+  box-sizing: border-box;
+  padding: 0 10px;
+  margin: 0 auto;
 }
 
-/* Фото и подпись (лотерея) */
+/* Фото */
 .photo-robin {
-  max-width: 90%;           /* Картинка не выходит за границы экрана */
-  width: 100%;              /* Адаптивная ширина */
-  height: auto;             /* Сохраняем пропорции */
-  box-sizing: border-box;
+  width: 100%;
+  height: auto;
   border-radius: 10px;
   border: 2px solid rgba(202, 162, 226, 0.6);
   background-color: rgba(239, 202, 237, 0.6);
@@ -96,25 +101,20 @@ body {
   display: block;
 }
 
+/* Подпись */
 .caption {
-  max-width: 90%;           /* Максимум 90% ширины блока */
-  word-wrap: break-word;    /* Разбиваем длинные слова */
-  white-space: normal;      /* Позволяем перенос на новую строку */
+  width: 100%;
+  white-space: normal;
+  word-break: break-word;
   box-sizing: border-box;
-  padding: 10px;
   text-align: center;
+  padding: 10px;
+  margin-top: 10px;
   border: 2px solid rgba(202, 162, 226, 0.6);
   border-radius: 10px;
   background-color: rgba(239, 202, 237, 0.6);
   color: rgb(234, 103, 201);
-  margin-top: 10px;
   font-size: 14px;
-}
-
-.photo-robin.active,
-.caption.active {
-  opacity: 1;
-  transform: translateY(0) scale(1);
 }
 
 /* Кнопка */
@@ -144,15 +144,7 @@ body {
 
 @media (max-width: 480px) {
   .menu__list-link { font-size: 16px; padding: 8px 12px; }
-
-  .photo-robin {
-    max-width: 95%;          /* почти вся ширина экрана */
-    height: auto;
-  }
-
-  .caption {
-    font-size: 12px;         /* уменьшенный шрифт */
-    max-width: 95%;          /* почти вся ширина экрана */
-    padding: 8px;            /* отступы чуть меньше */
-  }
+  .robin-center { max-width: 95%; padding: 0 5px; }
+  .caption { font-size: 12px; }
+  .photo-robin { max-width: 100%; }
 }

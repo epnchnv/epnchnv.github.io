@@ -25,7 +25,7 @@ var images = [
 
 // Показ картинки и подписи (лотерея)
 document.getElementById("my_button").addEventListener("click", function() {
-  var i = Math.floor(Math.random() * 17);
+  var i = Math.floor(Math.random() * images[0].length);
 
   const image = document.getElementById("my_image");
   const caption = document.getElementById("figcaption");
@@ -36,7 +36,14 @@ document.getElementById("my_button").addEventListener("click", function() {
 
   // Меняем контент
   image.src = images[0][i];
+  image.alt = "Робин " + (i + 1);
   caption.innerHTML = images[1][i];
+
+  // Обработка ошибок загрузки изображения
+  image.onerror = function() {
+    this.src = 'image/logo.jpeg'; // Запасное изображение
+    this.alt = 'Изображение не загрузилось';
+  };
 
   // Немного задерживаем для анимации
   setTimeout(() => {
@@ -45,12 +52,8 @@ document.getElementById("my_button").addEventListener("click", function() {
   }, 50);
 });
 
-// Бургер-меню
-const burger = document.querySelector(".burger");
-const menu = document.querySelector(".menu");
-if (burger && menu) {
-  burger.addEventListener("click", () => {
-    burger.classList.toggle("active");
-    menu.classList.toggle("active");
-  });
-}
+// Инициализация при загрузке страницы
+document.addEventListener('DOMContentLoaded', function() {
+  // Добавляем класс для плавной анимации
+  document.body.classList.add('loaded');
+});

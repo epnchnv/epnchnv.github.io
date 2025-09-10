@@ -25,16 +25,16 @@ var images = [
 
 // Показ картинки и подписи (лотерея)
 document.getElementById("my_button").addEventListener("click", function() {
-  var i = Math.floor(Math.random() * 17) % 17;
+  var i = Math.floor(Math.random() * 17);
 
   const image = document.getElementById("my_image");
   const caption = document.getElementById("figcaption");
 
-  // Сброс активных состояний
+  // Сброс активного состояния
   image.classList.remove("active");
   caption.classList.remove("active");
 
-  // Меняем картинку и подпись
+  // Меняем контент
   image.src = images[0][i];
   caption.innerHTML = images[1][i];
 
@@ -48,7 +48,6 @@ document.getElementById("my_button").addEventListener("click", function() {
 // Бургер-меню
 const burger = document.querySelector(".burger");
 const menu = document.querySelector(".menu");
-
 if (burger && menu) {
   burger.addEventListener("click", () => {
     burger.classList.toggle("active");

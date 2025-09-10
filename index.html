@@ -1,25 +1,25 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Мой первый сайт</title>
 
   <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
 
   <!-- Normalize CSS -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
 
   <!-- Стили -->
-  <link rel="stylesheet" href="styles/styles.css" />
+  <link rel="stylesheet" href="styles/styles.css">
   <link rel="shortcut icon" href="image/logo.jpeg">
 </head>
 <body>
 
-  <!-- Шапка сайта -->
+  <!-- Шапка -->
   <header class="header">
     <div class="container">
       <div class="header__inner">
@@ -27,7 +27,7 @@
           <img class="logo" src="image/logo.jpeg" alt="Логотип">
         </a>
 
-        <!-- Бургер-кнопка -->
+        <!-- Бургер -->
         <button class="burger" aria-label="Открыть меню">
           <span></span>
           <span></span>
@@ -47,11 +47,12 @@
 
   <!-- Основной контент -->
   <div class="robin-project">
-    <img id="my_image" class="photo-robin" src="" alt="Фото Робина">
-    <figcaption id="figcaption" class="caption"></figcaption>
+    <figure class="robin-center">
+      <img id="my_image" class="photo-robin" src="" alt="Фото Робина">
+      <figcaption id="figcaption" class="caption"></figcaption>
+    </figure>
+    <button id="my_button" class="button">Показать случайное фото</button>
   </div>
-
-  <button id="my_button" class="button">Показать случайное фото</button>
 
   <!-- JS -->
   <script src="scripts/main.js"></script>

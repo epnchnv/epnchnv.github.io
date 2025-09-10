@@ -76,23 +76,22 @@ body {
 /* Основной блок */
 .robin-project {
   display: flex;
-  justify-content: center;
-  align-items: center;
   flex-direction: column;
-  min-height: 60vh;
+  align-items: center;
   text-align: center;
+  gap: 10px; /* расстояние между картинкой и кнопкой */
+  padding: 10px;
 }
 
 /* Контейнер для фото и подписи */
 .robin-center {
   position: relative;
   width: 100%;
-  max-width: 100%;
-  padding: 0 5px;
+  max-width: 350px; /* ограничиваем ширину на мобильных */
   box-sizing: border-box;
-  margin: 0 auto;
   display: flex;
   flex-direction: column;
+  margin: 0 auto;
 }
 
 /* Фото */
@@ -113,18 +112,19 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: rgba(239, 202, 237, 0.7);
+  background-color: rgba(239, 202, 237, 0.85); /* контрастный фон */
   color: rgb(234, 103, 201);
-  padding: 6px 10px;
+  padding: 6px 8px;
   border-radius: 8px;
-  font-size: clamp(10px, 2.5vw, 16px); /* авто-масштабирование */
-  line-height: 1.2;
+  font-size: clamp(10px, 3vw, 14px); /* авто-масштабирование */
+  line-height: 1.3;
   text-align: center;
   word-break: break-word;
 }
 
 /* Кнопка */
 .button {
+  margin-top: 10px; /* ближе к картинке */
   font-family: "helvetica neue", helvetica, sans-serif;
   letter-spacing: 1px;
   text-transform: uppercase;
@@ -133,12 +133,12 @@ body {
   color: rgb(234, 103, 201);
   box-shadow: 1px 1px 2px rgba(202, 162, 226, 0.6);
   border-radius: 10px;
-  padding: 10px 20px;
+  font-size: 14px;
+  padding: 8px 16px;
   cursor: pointer;
-  margin-top: 20px;
 }
 
-/* Адаптив */
+/* Адаптив для средних экранов */
 @media (max-width: 768px) {
   .header__inner { flex-direction: column; align-items: flex-start; }
   .menu__list { flex-direction: column; gap: 10px; padding-left: 0; }
@@ -148,8 +148,19 @@ body {
   .menu.active { display: block; }
 }
 
+/* Адаптив для маленьких экранов */
 @media (max-width: 480px) {
-  .menu__list-link { font-size: 16px; padding: 8px 12px; }
-  .caption { font-size: clamp(10px, 4vw, 14px); padding: 4px 6px; }
+  .robin-center { max-width: 300px; }
+  .caption { font-size: clamp(10px, 4vw, 12px); padding: 4px 6px; }
   .photo-robin { max-width: 100%; }
+  .button { font-size: 12px; padding: 6px 12px; }
+  .menu__list-link { font-size: 16px; padding: 8px 12px; }
+}
+
+/* Большие экраны: пропорции */
+@media (min-width: 1200px) {
+  .robin-center { max-width: 800px; margin: 0 auto; }
+  .photo-robin { border-radius: 12px; }
+  .caption { font-size: clamp(14px, 1.5vw, 20px); padding: 10px 15px; }
+  .button { font-size: 16px; padding: 10px 20px; }
 }

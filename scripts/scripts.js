@@ -57,3 +57,28 @@ document.addEventListener('DOMContentLoaded', function() {
   // Добавляем класс для плавной анимации
   document.body.classList.add('loaded');
 });
+// Функция для адаптации размера текста
+function adjustCaptionSize() {
+  const caption = document.getElementById('figcaption');
+  const screenWidth = window.innerWidth;
+  
+  if (screenWidth < 480) {
+    caption.style.fontSize = '13px';
+  } else if (screenWidth < 768) {
+    caption.style.fontSize = '14px';
+  } else {
+    caption.style.fontSize = '16px';
+  }
+}
+
+// Вызывать при загрузке и изменении размера окна
+window.addEventListener('load', adjustCaptionSize);
+window.addEventListener('resize', adjustCaptionSize);
+
+// Также добавьте в обработчик клика:
+document.getElementById("my_button").addEventListener("click", function() {
+  // ... существующий код ...
+  
+  // После изменения контента обновляем размер
+  setTimeout(adjustCaptionSize, 100);
+});

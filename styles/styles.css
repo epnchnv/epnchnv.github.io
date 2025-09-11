@@ -660,15 +660,95 @@ button:focus-visible {
 }
 
 /* Large mobile devices */
+
 @media (max-width: 768px) {
   .header__inner {
-    flex-direction: column;
-    text-align: center;
+    flex-direction: row; /* Изменяем на row вместо column */
+    justify-content: space-between; /* Распределяем пространство */
+    text-align: left; /* Выравнивание по левому краю */
+    padding: 0 15px; /* Добавляем отступы */
+  }
+  
+  .menu-toggle {
+    display: flex; /* Показываем бургер-кнопку */
+    order: 2; /* Перемещаем кнопку в конец */
+  }
+  
+  .logo {
+    order: 1; /* Логотип первым */
+    margin-right: auto; /* Прижимаем к левому краю */
+  }
+  
+  .menu {
+    order: 3; /* Меню последним */
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 80%;
+    max-width: 300px;
+    height: 100vh;
+    background: var(--white);
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+    transition: right var(--transition-normal);
+    z-index: 999;
+    padding: 80px 20px 20px;
+    overflow-y: auto;
+  }
+  
+  .menu.active {
+    right: 0;
   }
   
   .menu__list {
-    justify-content: center;
+    flex-direction: column;
+    gap: 0;
   }
+  
+  .menu__list-item {
+    width: 100%;
+  }
+  
+  .menu__list-link {
+    display: block;
+    padding: 15px;
+    font-size: 1.1rem;
+    border-bottom: 1px solid var(--gray-light);
+    text-align: left;
+    border-radius: 0;
+  }
+  
+  /* Затемнение фона */
+  .menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transition: all var(--transition-normal);
+    z-index: 998;
+  }
+  
+  .menu-overlay.active {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+/* Для очень маленьких экранов */
+@media (max-width: 480px) {
+  .header__inner {
+    padding: 0 10px;
+  }
+  
+  .logo {
+    width: 45px;
+    height: 45px;
+  }
+}
+@media (max-width: 768px) {
   
   .about__content {
     grid-template-columns: 1fr;

@@ -153,7 +153,7 @@ body {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 50px;
-  align-items: center;
+  align-items: start; /* Ключевое изменение! */
 }
 
 .about__text {
@@ -164,49 +164,124 @@ body {
 .about__text p {
   margin-bottom: 20px;
 }
-/* Стили для фото-карточек */
+
 .about__photos {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 30px;
+  position: relative;
+  /* height: 450px;  Лучше удалить или заменить на min-height */
+  width: 100%;
   max-width: 500px;
   margin: 0 auto;
+  min-height: 530px; /* Добавьте это, если используете Способ 2 */
 }
 
-/* Альтернатива: выдвигающиеся карточки */
-.photo-card__alternative {
+.photo-stack {
   position: relative;
-  height: 300px;
+  width: 100%;
+  height: 100%;
+}
+
+.photo-item {
+  position: absolute;
+  width: 400px; /* Фиксированная ширина для вертикальных фото */
+  height: 530px; /* Фиксированная высота для вертикальных фото */
   border-radius: 15px;
   overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+  transition: all 0.5s ease;
+  border: 5px solid white;
 }
 
-.photo-card__alternative img {
+.photo-item img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.3s ease;
+  transition: transform 0.5s ease;
 }
 
-.photo-card__overlay {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: linear-gradient(transparent, rgba(0,0,0,0.8));
+.photo-1 {
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-5deg);
+  z-index: 2;
+}
+
+.photo-2 {
+  top: 40px;
+  left: 50%;
+  transform: translateX(-50%) rotate(5deg);
+  z-index: 1;
+}
+
+/* Эффект при наведении - фото меняются местами */
+.photo-stack:hover .photo-1 {
+  transform: translateX(-50%) rotate(5deg) translateY(30px);
+  z-index: 2; /* Первое фото уходит вниз */
+}
+
+.photo-stack:hover .photo-2 {
+  transform: translateX(-50%) rotate(-5deg) translateY(-30px);
+  z-index: 3; /* Второе фото поднимается наверх */
+}
+
+.photo-stack:hover .photo-item img {
+  transform: scale(1.05);
+}
+
+/* Стили для запасного изображения */
+.photo-item img[src="image/logo.jpeg"] {
+  object-fit: contain;
   padding: 20px;
-  color: white;
-  transform: translateY(100%);
-  transition: transform 0.3s ease;
+  background-color: #e0e0e0;
 }
 
-.photo-card__alternative:hover img {
-  transform: scale(1.1);
+/* Адаптивность для мобильных устройств */
+@media (max-width: 768px) {
+  .about__photos {
+      height: 400px;
+      max-width: 400px;
+  }
+  
+  .photo-item {
+      width: 240px;
+      height: 320px;
+  }
+  
+  .container {
+      padding: 20px;
+  }
+  
+  h1 {
+      font-size: 1.8rem;
+  }
 }
 
-.photo-card__alternative:hover .photo-card__overlay {
-  transform: translateY(0);
+@media (max-width: 480px) {
+  .about__photos {
+      height: 350px;
+      max-width: 320px;
+  }
+  
+  .photo-item {
+      width: 200px;
+      height: 280px;
+  }
+  
+  .photo-1 {
+      transform: translateX(-50%) rotate(-3deg);
+  }
+  
+  .photo-2 {
+      transform: translateX(-50%) rotate(3deg);
+  }
+  
+  .photo-stack:hover .photo-1 {
+      transform: translateX(-55%) rotate(-5deg) translateY(-10px);
+  }
+  
+  .photo-stack:hover .photo-2 {
+      transform: translateX(-45%) rotate(5deg) translateY(10px);
+  }
+ 
 }
 
 

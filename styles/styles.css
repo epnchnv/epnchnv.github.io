@@ -235,6 +235,42 @@ body {
 }
 
 /* Адаптивность для мобильных устройств */
+/* Добавьте этот медиа-запрос в конец ваших стилей */
+@media (max-width: 768px) and (hover: none) {
+  /* Отключаем hover эффекты на мобильных */
+  .photo-stack:hover .photo-1,
+  .photo-stack:hover .photo-2,
+  .photo-stack:hover .photo-item img {
+    transform: none;
+    z-index: auto;
+  }
+  
+  /* Создаем класс для активного состояния */
+  .photo-stack.mobile-active .photo-1 {
+    transform: translateX(-50%) rotate(5deg) translateY(30px);
+    z-index: 2;
+  }
+  
+  .photo-stack.mobile-active .photo-2 {
+    transform: translateX(-50%) rotate(-5deg) translateY(-30px);
+    z-index: 3;
+  }
+  
+  .photo-stack.mobile-active .photo-item img {
+    transform: scale(1.05);
+  }
+  
+  /* Адаптация для маленьких экранов */
+  @media (max-width: 480px) {
+    .photo-stack.mobile-active .photo-1 {
+      transform: translateX(-55%) rotate(-5deg) translateY(-10px);
+    }
+    
+    .photo-stack.mobile-active .photo-2 {
+      transform: translateX(-45%) rotate(5deg) translateY(10px);
+    }
+  }
+}
 @media (max-width: 768px) {
   .about__photos {
       height: 400px;
@@ -244,14 +280,6 @@ body {
   .photo-item {
       width: 240px;
       height: 320px;
-  }
-  
-  .container {
-      padding: 20px;
-  }
-  
-  h1 {
-      font-size: 1.8rem;
   }
 }
 
@@ -696,4 +724,32 @@ html, body {
 /* Дополнительное пространство для очень длинных подписей */
 #figcaption {
   margin-bottom: 20px;
+}
+
+/* Улучшение для мобилок */
+/* Добавьте эти стили в конец файла */
+.project-main {
+  min-height: 60vh; /* Фиксированная минимальная высота */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.robin-sun {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 400px; /* Минимальная высота для контейнера */
+}
+
+.image-container {
+  min-height: 300px; /* Резервируем место под изображение */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.caption-container {
+  min-height: 80px; /* Резервируем место под текст */
 }

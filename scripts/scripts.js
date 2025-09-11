@@ -29,12 +29,20 @@ function adjustCaptionSize() {
   const caption = document.getElementById('figcaption');
   const screenWidth = window.innerWidth;
   
+  // Устанавливаем фиксированные минимальные высоты
+  document.querySelector('.image-container').style.minHeight = '300px';
+  document.querySelector('.caption-container').style.minHeight = '80px';
+  
   if (screenWidth < 480) {
     caption.style.fontSize = '13px';
     caption.style.padding = '8px';
+    document.querySelector('.image-container').style.minHeight = '250px';
+    document.querySelector('.caption-container').style.minHeight = '70px';
   } else if (screenWidth < 768) {
     caption.style.fontSize = '14px';
     caption.style.padding = '10px';
+    document.querySelector('.image-container').style.minHeight = '280px';
+    document.querySelector('.caption-container').style.minHeight = '75px';
   } else {
     caption.style.fontSize = '16px';
     caption.style.padding = '15px';
@@ -103,3 +111,20 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Обновляем размер при изменении размера окна
 window.addEventListener('resize', adjustCaptionSize);
+
+// Скрипт для мобилок по тачу
+document.addEventListener('DOMContentLoaded', function() {
+  const photoStacks = document.querySelectorAll('.photo-stack');
+  
+  // Проверяем, touch-устройство ли это
+  const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+  
+  if (isTouchDevice) {
+    photoStacks.forEach(stack => {
+      stack.addEventListener('click', function(e) {
+        e.preventDefault();
+        this.classList.toggle('mobile-active');
+      });
+    });
+  }
+});

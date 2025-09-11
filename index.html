@@ -32,25 +32,29 @@
   <div class="main-content">
   <!-- Добавляем шапку сайта -->
   <header class="header">
-    <!-- Добавляем контейнер -->
     <div class="container">
-      <!-- Добавляем внутреннюю обёртку для выравнивания логотипа и меню -->
       <div class="header__inner">
-        <!-- Создаём логотип сайта -->
         <a href="./index.html">
           <img class="logo" src="image/logo.jpeg" alt="Логотип">
         </a>
-        <!-- С помощью списка создаём навигационное меню -->
+        
+        <!-- Добавляем бургер-кнопку -->
+        <button class="menu-toggle" aria-label="Открыть меню">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        
         <nav class="menu">
           <ul class="menu__list">
             <li class="menu__list-item">
-              <a class="menu__list-link" href="#about">Обо мне</a>
+              <a class="menu__list-link" href="./index.html#about">Обо мне</a>
             </li>
             <li class="menu__list-item">
-              <a class="menu__list-link" href="#projects">Проекты</a>
+              <a class="menu__list-link" href="./index.html#projects">Проекты</a>
             </li>
             <li class="menu__list-item">
-              <a class="menu__list-link" href="./robin-project.html">Robin Project</a>
+              <a class="menu__list-link active" href="./robin-project.html">Robin Project</a>
             </li>
           </ul>
         </nav>

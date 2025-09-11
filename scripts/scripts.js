@@ -221,3 +221,88 @@ function cleanup() {
   
   document.body.classList.remove('loaded');
 }
+
+// Функция для мобильного меню
+function initMobileMenu() {
+  const menuToggle = document.querySelector('.menu-toggle');
+  const menu = document.querySelector('.menu');
+  const body = document.body;
+  
+  if (!menuToggle || !menu) return;
+  
+  // Создаем overlay для затемнения фона
+  const overlay = document.createElement('div');
+  overlay.className = 'menu-overlay';
+  document.body.appendChild(overlay);
+  
+  const toggleMenu = () => {
+    menuToggle.classList.toggle('active');
+    menu.classList.toggle('active');
+    overlay.classList.toggle('active');
+    body.style.overflow = menu.classList.contains('active') ? 'hidden' : '';
+  };
+  
+  // Обработчики событий
+  menuToggle.addEventListener('click', toggleMenu);
+  overlay.addEventListener('click', toggleMenu);
+  
+  // Закрытие меню при клике на ссылку
+  const menuLinks = menu.querySelectorAll('.menu__list-link');
+  menuLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      if (menu.classList.contains('active')) {
+        toggleMenu();
+      }
+    });
+  });
+  
+  // Закрытие меню при resize на десктоп
+  const handleResize = () => {
+    if (window.innerWidth > 768 && menu.classList.contains('active')) {
+      toggleMenu();
+    }
+  };
+  
+  window.addEventListener('resize', handleResize);
+}
+
+// Обновите функцию initApp()
+function initApp() {
+  // Предзагрузка изображений (опционально)
+  IMAGES_CONFIG.paths.forEach(path => {
+    const img = new Image();
+    img.src = path;
+  });
+  
+  // Настройка обработчиков
+  DOM.image.addEventListener('error', handleImageError);
+  DOM.button.addEventListener('click', showRandomImage);
+  
+  // Инициализация взаимодействий
+  initPhotoStackInteractions();
+  initMobileMenu(); // Добавляем инициализацию меню
+  
+  // Настройка адаптивности
+  adjustCaptionSize();
+  window.addEventListener('resize', Utils.debounce(adjustCaptionSize, 250));
+  
+  // Добавляем класс для плавной анимации
+  document.body.classList.add('loaded');
+  
+  console.log('Приложение инициализировано успешно');
+}
+
+function cleanup() {
+  // ... существующий код ...
+  
+  // Очистка меню
+  const overlay = document.querySelector('.menu-overlay');
+  if (overlay) {
+    overlay.remove();
+  }
+  
+  const menuToggle = document.querySelector('.menu-toggle');
+  if (menuToggle) {
+    menuToggle.removeEventListener('click', toggleMenu);
+  }
+}

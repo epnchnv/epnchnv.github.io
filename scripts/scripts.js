@@ -49,6 +49,36 @@ function adjustCaptionSize() {
   }
 }
 
+// Исправление для мобильного переключения фото
+document.addEventListener('DOMContentLoaded', function() {
+  const photoStacks = document.querySelectorAll('.photo-stack');
+  
+  // Проверяем, touch-устройство ли это
+  const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+  
+  if (isTouchDevice) {
+    photoStacks.forEach(stack => {
+      // Добавляем курсор для интерактивности
+      stack.style.cursor = 'pointer';
+      
+      stack.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        this.classList.toggle('mobile-active');
+      });
+    });
+    
+    // Закрываем по клику вне области
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.photo-stack')) {
+        photoStacks.forEach(stack => {
+          stack.classList.remove('mobile-active');
+        });
+      }
+    });
+  }
+});
+
 // Функция для плавной прокрутки к элементу
 function scrollToElement(element, offset = 20) {
   const elementPosition = element.getBoundingClientRect().top;

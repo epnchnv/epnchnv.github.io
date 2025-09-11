@@ -311,6 +311,54 @@ body {
   }
  
 }
+/* Исправление для мобильного переключения фото */
+@media (max-width: 768px) {
+  .about__photos {
+    height: auto !important;
+    min-height: 350px;
+  }
+  
+  .photo-stack {
+    cursor: pointer;
+  }
+  
+  /* Отключаем hover на мобильных */
+  .photo-stack:hover .photo-1,
+  .photo-stack:hover .photo-2,
+  .photo-stack:hover .photo-item img {
+    transform: none !important;
+    z-index: auto !important;
+  }
+  
+  /* Активное состояние для мобильных */
+  .photo-stack.mobile-active .photo-1 {
+    transform: translateX(-50%) rotate(5deg) translateY(30px) !important;
+    z-index: 2 !important;
+  }
+  
+  .photo-stack.mobile-active .photo-2 {
+    transform: translateX(-50%) rotate(-5deg) translateY(-30px) !important;
+    z-index: 3 !important;
+  }
+  
+  .photo-stack.mobile-active .photo-item img {
+    transform: scale(1.05) !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .about__photos {
+    min-height: 300px;
+  }
+  
+  .photo-stack.mobile-active .photo-1 {
+    transform: translateX(-55%) rotate(-5deg) translateY(-10px) !important;
+  }
+  
+  .photo-stack.mobile-active .photo-2 {
+    transform: translateX(-45%) rotate(5deg) translateY(10px) !important;
+  }
+}
 
 
 /* Проекты */
@@ -752,4 +800,31 @@ html, body {
 
 .caption-container {
   min-height: 80px; /* Резервируем место под текст */
+}
+.project-main {
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.robin-project {
+  flex-shrink: 0;
+}
+
+.robin-sun {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 400px;
+}
+
+.image-container {
+  height: 300px;
+  flex-shrink: 0;
+}
+
+.caption-container {
+  min-height: 100px;
+  flex-shrink: 0;
 }

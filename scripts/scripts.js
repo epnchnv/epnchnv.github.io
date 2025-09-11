@@ -104,33 +104,38 @@ function adjustCaptionSize() {
 
 // Обработчик для мобильного переключения фото
 function initPhotoStackInteractions() {
-  if (!Utils.isTouchDevice()) return;
+  const photoStacks = document.querySelectorAll('.photo-stack');
   
-  DOM.photoStacks.forEach(stack => {
-    stack.style.cursor = 'pointer';
+  // Добавляем обработчик только для touch-устройств
+  if (Utils.isTouchDevice()) {
+    photoStacks.forEach(stack => {
+      stack.style.cursor = 'pointer';
+      
+      const handleStackClick = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        stack.classList.toggle('mobile-active');
+      };
+      
+      stack.addEventListener('click', handleStackClick);
+      stack.addEventListener('touchstart', handleStackClick, { passive: true });
+      
+      // Сохраняем ссылку на обработчик
+      stack._clickHandler = handleStackClick;
+    });
     
-    const handleStackClick = (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      stack.classList.toggle('mobile-active');
+    // Закрываем по клику вне области
+    const handleDocumentClick = (e) => {
+      if (!e.target.closest('.photo-stack')) {
+        photoStacks.forEach(stack => {
+          stack.classList.remove('mobile-active');
+        });
+      }
     };
     
-    stack.addEventListener('click', handleStackClick);
-    
-    // Сохраняем ссылку на обработчик для возможного удаления
-    stack._clickHandler = handleStackClick;
-  });
-  
-  // Закрываем по клику вне области
-  const handleDocumentClick = (e) => {
-    if (!e.target.closest('.photo-stack')) {
-      DOM.photoStacks.forEach(stack => {
-        stack.classList.remove('mobile-active');
-      });
-    }
-  };
-  
-  document.addEventListener('click', handleDocumentClick);
+    document.addEventListener('click', handleDocumentClick);
+    document.addEventListener('touchstart', handleDocumentClick, { passive: true });
+  }
 }
 
 // Обработчик ошибок загрузки изображения

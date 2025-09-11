@@ -810,3 +810,66 @@ button:focus-visible {
     max-width: none;
   }
 }
+
+/* ===== МОБИЛЬНАЯ ВЕРСИЯ STACK ФОТО ===== */
+@media (max-width: 768px) {
+  .about__photos {
+    min-height: 400px;
+    margin-bottom: var(--space-lg);
+  }
+  
+  .photo-stack {
+    cursor: pointer;
+    touch-action: manipulation;
+  }
+  
+  .photo-item {
+    width: 280px;
+    height: 370px;
+    transition: transform 0.5s ease;
+  }
+  
+  /* Переопределяем десктопные стили для мобильных */
+  .photo-1 {
+    transform: translateX(-50%) rotate(-3deg) !important;
+    z-index: 2;
+  }
+  
+  .photo-2 {
+    transform: translateX(-50%) rotate(3deg) !important;
+    z-index: 1;
+    opacity: 0.9;
+  }
+  
+  /* Отключаем hover эффекты на мобильных */
+  .photo-stack:hover .photo-1,
+  .photo-stack:hover .photo-2,
+  .photo-stack:hover .photo-item img {
+    transform: none !important;
+  }
+  
+  /* Активное состояние при тапе */
+  .photo-stack.mobile-active .photo-1 {
+    transform: translateX(-50%) rotate(3deg) translateY(20px) !important;
+    z-index: 1;
+    opacity: 0.9;
+  }
+  
+  .photo-stack.mobile-active .photo-2 {
+    transform: translateX(-50%) rotate(-3deg) translateY(-20px) !important;
+    z-index: 2;
+  }
+  
+  /* Анимация для плавного переключения */
+  .photo-stack.mobile-active .photo-item {
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+  }
+}
+
+/* Для очень маленьких экранов */
+@media (max-width: 360px) {
+  .photo-item {
+    width: 250px;
+    height: 330px;
+  }
+}

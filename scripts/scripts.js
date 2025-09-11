@@ -220,6 +220,17 @@ function cleanup() {
   });
   
   document.body.classList.remove('loaded');
+
+    // Очистка меню
+    const overlay = document.querySelector('.menu-overlay');
+    if (overlay) {
+      overlay.remove();
+    }
+    
+    const menuToggle = document.querySelector('.menu-toggle');
+    if (menuToggle) {
+      menuToggle.removeEventListener('click', toggleMenu);
+    }
 }
 
 // Функция для мобильного меню
@@ -292,17 +303,4 @@ function initApp() {
   console.log('Приложение инициализировано успешно');
 }
 
-function cleanup() {
-  // ... существующий код ...
-  
-  // Очистка меню
-  const overlay = document.querySelector('.menu-overlay');
-  if (overlay) {
-    overlay.remove();
-  }
-  
-  const menuToggle = document.querySelector('.menu-toggle');
-  if (menuToggle) {
-    menuToggle.removeEventListener('click', toggleMenu);
-  }
-}
+

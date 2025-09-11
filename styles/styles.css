@@ -811,6 +811,75 @@ button:focus-visible {
   }
 }
 
+/* ===== ДЕСКТОПНЫЕ ОТСТУПЫ ===== */
+@media (min-width: 769px) {
+  .about__content {
+    gap: var(--space-xxl); /* Увеличиваем расстояние между текстом и фото */
+    margin-bottom: var(--space-xl);
+  }
+  
+  .about__text {
+    padding-right: var(--space-lg); /* Отступ справа от текста */
+  }
+  
+  .about__photos {
+    padding-left: var(--space-lg); /* Отступ слева от фото */
+  }
+  
+  /* Добавляем отступы между секциями */
+  .hero {
+    margin-bottom: var(--space-xxl);
+  }
+  
+  .about {
+    margin-bottom: var(--space-xxl);
+  }
+  
+  .projects {
+    margin-bottom: var(--space-xxl);
+  }
+  
+  /* Увеличиваем отступы внутри карточек проектов */
+  .project__info {
+    padding: var(--space-xl);
+  }
+  
+  .project__tags {
+    margin: var(--space-lg) 0;
+  }
+}
+
+/* ===== ДОПОЛНИТЕЛЬНЫЕ ОТСТУПЫ ДЛЯ БОЛЬШИХ ЭКРАНОВ ===== */
+@media (min-width: 1024px) {
+  .about__content {
+    gap: calc(var(--space-xxl) * 1.5);
+  }
+  
+  .about__text {
+    padding-right: var(--space-xl);
+  }
+  
+  .about__photos {
+    padding-left: var(--space-xl);
+  }
+  
+  /* Увеличиваем общие отступы секций */
+  .section {
+    padding: calc(var(--space-xxl) * 1.5) 0;
+  }
+}
+
+/* ===== ОТСТУПЫ ДЛЯ ОЧЕНЬ БОЛЬШИХ ЭКРАНОВ ===== */
+@media (min-width: 1440px) {
+  .about__content {
+    gap: calc(var(--space-xxl) * 2);
+  }
+  
+  .container {
+    padding: 0 var(--space-xl);
+  }
+}
+
 /* ===== МОБИЛЬНАЯ ВЕРСИЯ STACK ФОТО ===== */
 @media (max-width: 768px) {
   .about__photos {
@@ -872,4 +941,71 @@ button:focus-visible {
     width: 250px;
     height: 330px;
   }
+}
+
+/* ===== ФИКС ДЛЯ КЛИКА ПО ФОТО ===== */
+.photo-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+}
+
+.photo-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  pointer-events: none; /* Важно! Предотвращает клики по самому изображению */
+}
+
+/* Делаем весь photo-item кликабельным */
+.photo-item {
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Улучшаем feedback при клике */
+.photo-item:active {
+  transform: scale(0.98);
+  transition: transform 0.1s ease;
+}
+
+/* Для мобильных устройств */
+@media (max-width: 768px) {
+  .photo-stack {
+    position: relative;
+    z-index: 10;
+  }
+  
+  .photo-item {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+}
+
+/* Предотвращаем контекстное меню при долгом нажатии */
+.photo-stack {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Предотвращаем выделение текста при кликах */
+.photo-stack,
+.photo-item,
+.photo-wrapper {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Убираем синее подсвечивание на iOS */
+.photo-stack {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }

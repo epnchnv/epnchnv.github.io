@@ -106,35 +106,35 @@ function adjustCaptionSize() {
 function initPhotoStackInteractions() {
   const photoStacks = document.querySelectorAll('.photo-stack');
   
-  // Добавляем обработчик только для touch-устройств
   if (Utils.isTouchDevice()) {
     photoStacks.forEach(stack => {
-      stack.style.cursor = 'pointer';
-      
       const handleStackClick = (e) => {
+        // Предотвращаем все стандартные поведения
         e.preventDefault();
         e.stopPropagation();
+        e.stopImmediatePropagation();
+        
         stack.classList.toggle('mobile-active');
+        
+        // Блокируем дальнейшие события на короткое время
+        stack.style.pointerEvents = 'none';
+        setTimeout(() => {
+          stack.style.pointerEvents = 'auto';
+        }, 300);
       };
       
-      stack.addEventListener('click', handleStackClick);
-      stack.addEventListener('touchstart', handleStackClick, { passive: true });
+      // Удаляем старые обработчики если есть
+      if (stack._clickHandler) {
+        stack.removeEventListener('click', stack._clickHandler);
+        stack.removeEventListener('touchstart', stack._clickHandler);
+      }
       
-      // Сохраняем ссылку на обработчик
+      // Добавляем новые обработчики
+      stack.addEventListener('click', handleStackClick, { passive: false });
+      stack.addEventListener('touchstart', handleStackClick, { passive: false });
+      
       stack._clickHandler = handleStackClick;
     });
-    
-    // Закрываем по клику вне области
-    const handleDocumentClick = (e) => {
-      if (!e.target.closest('.photo-stack')) {
-        photoStacks.forEach(stack => {
-          stack.classList.remove('mobile-active');
-        });
-      }
-    };
-    
-    document.addEventListener('click', handleDocumentClick);
-    document.addEventListener('touchstart', handleDocumentClick, { passive: true });
   }
 }
 

@@ -588,3 +588,37 @@ html, body {
     max-height: 250px;
   }
 }
+/* Дополнительные стили для улучшения отступов */
+.robin-sun {
+  padding-bottom: 60px; /* Добавляем отступ снизу */
+}
+
+.caption-container {
+  margin-bottom: 40px; /* Отступ после подписи */
+}
+
+/* Улучшение отображения на мобильных устройствах */
+@media (max-width: 768px) {
+  .robin-sun {
+    padding-bottom: 50px;
+  }
+  
+  .caption-container {
+    margin-bottom: 30px;
+  }
+}
+
+@media (max-width: 480px) {
+  .robin-sun {
+    padding-bottom: 40px;
+  }
+  
+  .caption-container {
+    margin-bottom: 25px;
+  }
+}
+
+/* Дополнительное пространство для очень длинных подписей */
+#figcaption {
+  margin-bottom: 20px;
+}

@@ -41,8 +41,21 @@ function adjustCaptionSize() {
   }
 }
 
+// Функция для плавной прокрутки к элементу
+function scrollToElement(element, offset = 20) {
+  const elementPosition = element.getBoundingClientRect().top;
+  const offsetPosition = elementPosition + window.pageYOffset - offset;
+
+  window.scrollTo({
+    top: offsetPosition,
+    behavior: 'smooth'
+  });
+}
+
 // Показ картинки и подписи (лотерея)
 document.getElementById("my_button").addEventListener("click", function() {
+  const button = this; // Сохраняем ссылку на кнопку
+  
   var i = Math.floor(Math.random() * images[0].length);
 
   const image = document.getElementById("my_image");
@@ -70,6 +83,11 @@ document.getElementById("my_button").addEventListener("click", function() {
     
     // Обновляем размер подписи после изменения контента
     adjustCaptionSize();
+    
+    // Прокручиваем к кнопке после показа предсказания
+    setTimeout(() => {
+      scrollToElement(button);
+    }, 500); // Задержка перед прокруткой к кнопке
     
   }, 50);
 });

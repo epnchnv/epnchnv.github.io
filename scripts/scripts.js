@@ -23,6 +23,23 @@ var images = [
   ]
 ];
 
+// Функция для адаптации размера текста подписи
+function adjustCaptionSize() {
+  const caption = document.getElementById('figcaption');
+  const screenWidth = window.innerWidth;
+  
+  if (screenWidth < 480) {
+    caption.style.fontSize = '13px';
+    caption.style.padding = '8px';
+  } else if (screenWidth < 768) {
+    caption.style.fontSize = '14px';
+    caption.style.padding = '10px';
+  } else {
+    caption.style.fontSize = '16px';
+    caption.style.padding = '15px';
+  }
+}
+
 // Показ картинки и подписи (лотерея)
 document.getElementById("my_button").addEventListener("click", function() {
   var i = Math.floor(Math.random() * images[0].length);
@@ -49,6 +66,10 @@ document.getElementById("my_button").addEventListener("click", function() {
   setTimeout(() => {
     image.classList.add("active");
     caption.classList.add("active");
+    
+    // Обновляем размер подписи после изменения контента
+    adjustCaptionSize();
+    
   }, 50);
 });
 
@@ -56,29 +77,10 @@ document.getElementById("my_button").addEventListener("click", function() {
 document.addEventListener('DOMContentLoaded', function() {
   // Добавляем класс для плавной анимации
   document.body.classList.add('loaded');
-});
-// Функция для адаптации размера текста
-function adjustCaptionSize() {
-  const caption = document.getElementById('figcaption');
-  const screenWidth = window.innerWidth;
   
-  if (screenWidth < 480) {
-    caption.style.fontSize = '13px';
-  } else if (screenWidth < 768) {
-    caption.style.fontSize = '14px';
-  } else {
-    caption.style.fontSize = '16px';
-  }
-}
+  // Инициализируем размер подписи
+  adjustCaptionSize();
+});
 
-// Вызывать при загрузке и изменении размера окна
-window.addEventListener('load', adjustCaptionSize);
+// Обновляем размер при изменении размера окна
 window.addEventListener('resize', adjustCaptionSize);
-
-// Также добавьте в обработчик клика:
-document.getElementById("my_button").addEventListener("click", function() {
-  // ... существующий код ...
-  
-  // После изменения контента обновляем размер
-  setTimeout(adjustCaptionSize, 100);
-});

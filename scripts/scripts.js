@@ -1,9 +1,12 @@
-var images = [
-  ["robin/1.jpeg","robin/2.jpeg","robin/3.jpeg","robin/4.jpeg","robin/5.jpeg",
-   "robin/6.jpeg","robin/7.jpeg","robin/8.jpeg","robin/9.jpeg","robin/10.jpeg",
-   "robin/11.jpeg","robin/12.jpeg","robin/13.jpeg","robin/14.jpeg","robin/15.jpeg",
-   "robin/16.jpeg","robin/17.jpeg"],
-   [
+// Конфигурация
+const IMAGES_CONFIG = {
+  paths: [
+    "robin/1.jpeg", "robin/2.jpeg", "robin/3.jpeg", "robin/4.jpeg", "robin/5.jpeg",
+    "robin/6.jpeg", "robin/7.jpeg", "robin/8.jpeg", "robin/9.jpeg", "robin/10.jpeg",
+    "robin/11.jpeg", "robin/12.jpeg", "robin/13.jpeg", "robin/14.jpeg", "robin/15.jpeg",
+    "robin/16.jpeg", "robin/17.jpeg"
+  ],
+  captions: [
     "Сегодня тебя ждет уютный, спокойный вечер. Самое время замедлиться и насладиться моментом.",
     "Лето закончилось, но тебя ждет приятное предвкушение праздников и волшебства. Начинай чувствовать новогоднее настроение!",
     "Сегодня ты сам станешь лучшим подарком для кого-то. Твое внимание и забота будут бесценны.",
@@ -21,140 +24,195 @@ var images = [
     "Активный отдых и свежий воздух — вот что нужно тебе сегодня для заряда энергией.",
     "Готовься получить знак внимания. Возможно, тебя ждут цветы, комплимент или приятный сюрприз.",
     "Твое умение легко находить общий язык с людьми будет на пике. Новые знакомства и интересные беседы гарантированы."
- ]
-];
+  ],
+  fallbackImage: 'image/logo.jpeg'
+};
+
+// Кэширование DOM элементов
+const DOM = {
+  image: document.getElementById("my_image"),
+  caption: document.getElementById("figcaption"),
+  button: document.getElementById("my_button"),
+  imageContainer: document.querySelector('.image-container'),
+  captionContainer: document.querySelector('.caption-container'),
+  photoStacks: document.querySelectorAll('.photo-stack')
+};
+
+// Утилиты
+const Utils = {
+  // Проверка на touch-устройство
+  isTouchDevice: () => 'ontouchstart' in window || navigator.maxTouchPoints > 0,
+  
+  // Генерация случайного числа в диапазоне
+  getRandomIndex: (max) => Math.floor(Math.random() * max),
+  
+  // Плавная прокрутка к элементу
+  scrollToElement: (element, offset = 20) => {
+    const elementPosition = element.getBoundingClientRect().top;
+    const offsetPosition = elementPosition + window.pageYOffset - offset;
+    
+    window.scrollTo({
+      top: offsetPosition,
+      behavior: 'smooth'
+    });
+  },
+  
+  // Дебаунс для resize события
+  debounce: (func, wait) => {
+    let timeout;
+    return function executedFunction(...args) {
+      const later = () => {
+        clearTimeout(timeout);
+        func(...args);
+      };
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+    };
+  }
+};
 
 // Функция для адаптации размера текста подписи
 function adjustCaptionSize() {
-  const caption = document.getElementById('figcaption');
   const screenWidth = window.innerWidth;
+  const caption = DOM.caption;
   
-  // Устанавливаем фиксированные минимальные высоты
-  document.querySelector('.image-container').style.minHeight = '300px';
-  document.querySelector('.caption-container').style.minHeight = '80px';
+  // Устанавливаем минимальные высоты
+  const sizes = {
+    container: { minHeight: '300px' },
+    caption: { minHeight: '80px' }
+  };
   
   if (screenWidth < 480) {
     caption.style.fontSize = '13px';
     caption.style.padding = '8px';
-    document.querySelector('.image-container').style.minHeight = '250px';
-    document.querySelector('.caption-container').style.minHeight = '70px';
+    sizes.container.minHeight = '250px';
+    sizes.caption.minHeight = '70px';
   } else if (screenWidth < 768) {
     caption.style.fontSize = '14px';
     caption.style.padding = '10px';
-    document.querySelector('.image-container').style.minHeight = '280px';
-    document.querySelector('.caption-container').style.minHeight = '75px';
+    sizes.container.minHeight = '280px';
+    sizes.caption.minHeight = '75px';
   } else {
     caption.style.fontSize = '16px';
     caption.style.padding = '15px';
   }
+  
+  // Применяем размеры
+  DOM.imageContainer.style.minHeight = sizes.container.minHeight;
+  DOM.captionContainer.style.minHeight = sizes.caption.minHeight;
 }
 
-// Исправление для мобильного переключения фото
-document.addEventListener('DOMContentLoaded', function() {
-  const photoStacks = document.querySelectorAll('.photo-stack');
+// Обработчик для мобильного переключения фото
+function initPhotoStackInteractions() {
+  if (!Utils.isTouchDevice()) return;
   
-  // Проверяем, touch-устройство ли это
-  const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-  
-  if (isTouchDevice) {
-    photoStacks.forEach(stack => {
-      // Добавляем курсор для интерактивности
-      stack.style.cursor = 'pointer';
-      
-      stack.addEventListener('click', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        this.classList.toggle('mobile-active');
-      });
-    });
+  DOM.photoStacks.forEach(stack => {
+    stack.style.cursor = 'pointer';
     
-    // Закрываем по клику вне области
-    document.addEventListener('click', function(e) {
-      if (!e.target.closest('.photo-stack')) {
-        photoStacks.forEach(stack => {
-          stack.classList.remove('mobile-active');
-        });
-      }
-    });
-  }
-});
-
-// Функция для плавной прокрутки к элементу
-function scrollToElement(element, offset = 20) {
-  const elementPosition = element.getBoundingClientRect().top;
-  const offsetPosition = elementPosition + window.pageYOffset - offset;
-
-  window.scrollTo({
-    top: offsetPosition,
-    behavior: 'smooth'
+    const handleStackClick = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      stack.classList.toggle('mobile-active');
+    };
+    
+    stack.addEventListener('click', handleStackClick);
+    
+    // Сохраняем ссылку на обработчик для возможного удаления
+    stack._clickHandler = handleStackClick;
   });
+  
+  // Закрываем по клику вне области
+  const handleDocumentClick = (e) => {
+    if (!e.target.closest('.photo-stack')) {
+      DOM.photoStacks.forEach(stack => {
+        stack.classList.remove('mobile-active');
+      });
+    }
+  };
+  
+  document.addEventListener('click', handleDocumentClick);
 }
 
-// Показ картинки и подписи (лотерея)
-document.getElementById("my_button").addEventListener("click", function() {
-  const button = this; // Сохраняем ссылку на кнопку
+// Обработчик ошибок загрузки изображения
+function handleImageError() {
+  this.src = IMAGES_CONFIG.fallbackImage;
+  this.alt = 'Изображение не загрузилось';
+  console.warn('Изображение не загрузилось, используется запасной вариант');
+}
+
+// Основная функция для показа случайного изображения и подписи
+function showRandomImage() {
+  const button = DOM.button;
+  const index = Utils.getRandomIndex(IMAGES_CONFIG.paths.length);
   
-  var i = Math.floor(Math.random() * images[0].length);
-
-  const image = document.getElementById("my_image");
-  const caption = document.getElementById("figcaption");
-
   // Сброс активного состояния
-  image.classList.remove("active");
-  caption.classList.remove("active");
-
-  // Меняем контент
-  image.src = images[0][i];
-  image.alt = "Робин " + (i + 1);
-  caption.innerHTML = images[1][i];
-
-  // Обработка ошибок загрузки изображения
-  image.onerror = function() {
-    this.src = 'image/logo.jpeg'; // Запасное изображение
-    this.alt = 'Изображение не загрузилось';
-  };
-
+  DOM.image.classList.remove("active");
+  DOM.caption.classList.remove("active");
+  
+  // Устанавливаем новый контент
+  DOM.image.src = IMAGES_CONFIG.paths[index];
+  DOM.image.alt = `Робин ${index + 1}`;
+  DOM.caption.textContent = IMAGES_CONFIG.captions[index];
+  
   // Немного задерживаем для анимации
   setTimeout(() => {
-    image.classList.add("active");
-    caption.classList.add("active");
+    DOM.image.classList.add("active");
+    DOM.caption.classList.add("active");
     
-    // Обновляем размер подписи после изменения контента
+    // Обновляем размер подписи
     adjustCaptionSize();
     
     // Прокручиваем к кнопке после показа предсказания
     setTimeout(() => {
-      scrollToElement(button);
-    }, 500); // Задержка перед прокруткой к кнопке
-    
+      Utils.scrollToElement(button);
+    }, 500);
   }, 50);
-});
+}
 
-// Инициализация при загрузке страницы
-document.addEventListener('DOMContentLoaded', function() {
+// Инициализация приложения
+function initApp() {
+  // Предзагрузка изображений (опционально)
+  IMAGES_CONFIG.paths.forEach(path => {
+    const img = new Image();
+    img.src = path;
+  });
+  
+  // Настройка обработчиков
+  DOM.image.addEventListener('error', handleImageError);
+  DOM.button.addEventListener('click', showRandomImage);
+  
+  // Инициализация взаимодействий
+  initPhotoStackInteractions();
+  
+  // Настройка адаптивности
+  adjustCaptionSize();
+  window.addEventListener('resize', Utils.debounce(adjustCaptionSize, 250));
+  
   // Добавляем класс для плавной анимации
   document.body.classList.add('loaded');
   
-  // Инициализируем размер подписи
-  adjustCaptionSize();
-});
+  console.log('Приложение инициализировано успешно');
+}
 
-// Обновляем размер при изменении размера окна
-window.addEventListener('resize', adjustCaptionSize);
+// Запуск приложения после загрузки DOM
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initApp);
+} else {
+  initApp();
+}
 
-// Скрипт для мобилок по тачу
-document.addEventListener('DOMContentLoaded', function() {
-  const photoStacks = document.querySelectorAll('.photo-stack');
+// Очистка (для SPA или если нужно перезагрузить)
+function cleanup() {
+  DOM.image.removeEventListener('error', handleImageError);
+  DOM.button.removeEventListener('click', showRandomImage);
+  window.removeEventListener('resize', Utils.debounce(adjustCaptionSize, 250));
   
-  // Проверяем, touch-устройство ли это
-  const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+  // Удаляем обработчики с photo stacks
+  DOM.photoStacks.forEach(stack => {
+    if (stack._clickHandler) {
+      stack.removeEventListener('click', stack._clickHandler);
+    }
+  });
   
-  if (isTouchDevice) {
-    photoStacks.forEach(stack => {
-      stack.addEventListener('click', function(e) {
-        e.preventDefault();
-        this.classList.toggle('mobile-active');
-      });
-    });
-  }
-});
+  document.body.classList.remove('loaded');
+}

@@ -272,29 +272,44 @@ function initMobileMenu() {
     }
   });
 
-  // 3. САМОЕ ВАЖНОЕ: Обработчик для кликов по самому меню
-  menu.addEventListener('click', (e) => {
-    // Останавливаем всплытие события. Клик по меню не дойдет до overlay.
+  // 3. САМОЕ ВАЖНОЕ: Обработчик для кликов по ссылкам в меню
+  const menuLinks = menu.querySelectorAll('.menu__list-link');
+  menuLinks.forEach(link => {
+    link.addEventListener('click', function(e) {
+      // 1. Сразу закрываем меню
+      toggleMenu();
+      
+      // 2. (Опционально) Если это якорная ссылка (начинается с #) на этой же странице,
+      // даем время меню анимированно закрыться перед скроллом.
+      // Для обычных ссылок (на другие страницы) браузер сделает все сам.
+      if (this.getAttribute('href').startsWith('#')) {
+        e.preventDefault(); // Отменяем мгновенный скролл
+        const targetId = this.getAttribute('href');
+        const targetElement = document.querySelector(targetId);
+        
+        // Ждем немного, чтобы меню успело закрыться
+        setTimeout(() => {
+          if (targetElement) {
+            targetElement.scrollIntoView({ behavior: 'smooth' });
+          }
+        }, 300); // Время должно совпадать с длительностью анимации закрытия меню (у вас 0.3s)
+      }
+      // Для всех остальных ссылок (например, './robin-project.html') браузер перейдет по ним автоматически после закрытия меню.
+    });
+  });
+
+  // 4. Обработчик для кликов по самому меню (ul)
+  menu.addEventListener('click', function(e) {
+    // Останавливаем всплытие события, чтобы клик по любому месту внутри меню (но не по ссылке) не доходил до оверлея
     e.stopPropagation();
   });
 
-  // 4. Обработчик для кликов по ссылкам в меню
-const menuLinks = menu.querySelectorAll('.menu__list-link');
-menuLinks.forEach(link => {
-  link.addEventListener('click', function(e) {
-    // Останавливаем всплытие события, чтобы оно не достигло оверлея
-    e.stopPropagation();
-    // Закрываем меню после клика по ссылке
-    toggleMenu();
-  });
-});
-
-// 5. Обработчик для кликов по самому меню (ul)
-menu.addEventListener('click', function(e) {
-  // Останавливаем всплытие события, чтобы клик по любому месту внутри меню (но не по ссылке) не доходил до оверлея
-  e.stopPropagation();
-});
-
+  // 5. Обработчик для изменения размера окна (закрываем меню при увеличении окна)
+  const handleResize = () => {
+    if (window.innerWidth > 768 && menu.classList.contains('active')) {
+      toggleMenu();
+    }
+  };
   window.addEventListener('resize', handleResize);
 }
 

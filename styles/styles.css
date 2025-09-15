@@ -212,20 +212,42 @@ button:focus-visible {
   display: none;
 }
 
+/* Контейнер для мобильного меню */
+.mobile-menu-controls {
+  display: none; /* Скрываем на десктопе */
+}
+
+/* Кнопка бургер-меню */
 .menu-toggle {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 30px;
-  height: 30px;
+  align-items: center;
+  gap: 10px;
   background: none;
   border: none;
   cursor: pointer;
-  padding: 0;
+  padding: 8px 12px;
+  color: var(--primary-color);
+  font-family: var(--font-main);
+  font-size: 16px;
+  font-weight: 500;
+  transition: all var(--transition-normal);
+  border-radius: var(--radius-md);
+}
+
+.menu-toggle:hover {
+  background-color: rgba(245, 166, 201, 0.1);
+}
+
+/* Иконка бургера */
+.menu-toggle__icon {
+  display: flex;
+  flex-direction: column;
+  width: 20px;
+  height: 16px;
   position: relative;
 }
 
-.menu-toggle span {
+.menu-toggle__icon span {
   height: 2px;
   width: 100%;
   background-color: var(--primary-color);
@@ -233,55 +255,91 @@ button:focus-visible {
   transition: all var(--transition-normal);
 }
 
-.menu-toggle span:nth-child(2) {
-  margin: 6px 0;
+.menu-toggle__icon span:nth-child(2) {
+  margin: 5px 0;
 }
 
-/* Улучшаем анимацию меню */
-.menu {
-  transition: transform var(--transition-normal) ease-in-out;
+/* Надпись "Меню" */
+.menu-label {
+  font-size: 16px;
+  font-weight: 500;
 }
 
-.menu-overlay {
-  transition: opacity var(--transition-normal) ease-in-out;
-}
-
-.menu-overlay.active {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-/* Показываем надпись "Меню" на мобильных */
+/* Показываем только на мобильных */
 @media (max-width: 768px) {
-  .menu-label {
+  .mobile-menu-controls {
     display: block;
   }
   
-  .mobile-menu-controls {
-    padding: 8px 12px;
-    border: 1px solid var(--gray-light);
-    border-radius: var(--radius-md);
+  /* Скрываем обычное меню на мобильных */
+  .menu {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 80%;
+    max-width: 300px;
+    height: 100vh;
     background: var(--white);
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+    transition: right var(--transition-normal);
+    z-index: var(--z-menu);
+    padding: 80px 20px 20px;
+    overflow-y: auto;
+  }
+  
+  .menu.active {
+    right: 0;
+  }
+  
+  .menu__list {
+    flex-direction: column;
+    gap: 0;
+  }
+  
+  .menu__list-item {
+    width: 100%;
+  }
+  
+  .menu__list-link {
+    display: block;
+    padding: 15px;
+    font-size: 1.1rem;
+    border-bottom: 1px solid var(--gray-light);
+    text-align: left;
+    border-radius: 0;
   }
 }
 
-/* Анимация бургера */
-.menu-toggle.active span:nth-child(1) {
+/* Анимация бургера при активации */
+.menu-toggle.active .menu-toggle__icon span:nth-child(1) {
   transform: rotate(45deg) translate(6px, 6px);
 }
 
-.menu-toggle.active span:nth-child(2) {
+.menu-toggle.active .menu-toggle__icon span:nth-child(2) {
   opacity: 0;
 }
 
-.menu-toggle.active span:nth-child(3) {
+.menu-toggle.active .menu-toggle__icon span:nth-child(3) {
   transform: rotate(-45deg) translate(6px, -6px);
 }
 
-.menu__list-link:hover,
-.menu__list-link.active {
-  color: var(--secondary-color);
-  background-color: rgba(245, 166, 201, 0.1);
+/* Оверлей для меню */
+.menu-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: var(--z-overlay);
+  opacity: 0;
+  transition: opacity var(--transition-normal);
+}
+
+.menu-overlay.active {
+  display: block;
+  opacity: 1;
 }
 
 /* Скрываем бургер-кнопку и оверлей на десктопе */

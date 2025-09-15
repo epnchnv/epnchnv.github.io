@@ -202,6 +202,7 @@ function initApp() {
   document.body.classList.add('loaded');
   
   console.log('Приложение инициализировано успешно');
+  initMobileMenu(); // Добавьте эту строку
 }
 
 // Запуск приложения после загрузки DOM
@@ -249,10 +250,8 @@ function initMobileMenu() {
   const overlay = document.querySelector('.menu-overlay');
   const body = document.body;
 
-  // Если элементов меню на странице нет, выходим
   if (!menuToggle || !menu || !overlay) return;
 
-  // Основная функция переключения меню
   const toggleMenu = () => {
     menuToggle.classList.toggle('active');
     menu.classList.toggle('active');
@@ -260,53 +259,37 @@ function initMobileMenu() {
     body.style.overflow = menu.classList.contains('active') ? 'hidden' : '';
   };
 
-  // 1. Обработчик для кнопки бургера
+  // Обработчик для кнопки бургера
   menuToggle.addEventListener('click', (e) => {
     e.stopPropagation();
     toggleMenu();
   });
 
-  // 2. Обработчик для оверлея
+  // Обработчик для оверлея
   overlay.addEventListener('click', (e) => {
     if (e.target === overlay) {
       toggleMenu();
     }
   });
 
-  // 3. Обработчик для ссылок в меню
+  // Обработчик для ссылок в меню
   const menuLinks = menu.querySelectorAll('.menu__list-link');
   menuLinks.forEach(link => {
-    link.addEventListener('click', function(e) {
+    link.addEventListener('click', function() {
       toggleMenu();
-      
-      // Для якорных ссылок на этой же странице
-      if (this.getAttribute('href').startsWith('#')) {
-        e.preventDefault();
-        const targetId = this.getAttribute('href');
-        const targetElement = document.querySelector(targetId);
-        
-        setTimeout(() => {
-          if (targetElement) {
-            targetElement.scrollIntoView({ behavior: 'smooth' });
-          }
-        }, 300);
-      }
     });
   });
 
-  // 4. Обработчик для кликов по самому меню
-  menu.addEventListener('click', function(e) {
-    e.stopPropagation();
-  });
-
-  // 5. Закрываем меню при изменении размера окна
+  // Закрываем меню при изменении размера окна
   const handleResize = () => {
     if (window.innerWidth > 768 && menu.classList.contains('active')) {
       toggleMenu();
     }
   };
+  
   window.addEventListener('resize', handleResize);
 }
+
 
 // Инициализация мобильного меню при загрузке
 document.addEventListener('DOMContentLoaded', function() {

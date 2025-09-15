@@ -232,16 +232,15 @@ function cleanup() {
 }
 
 // Функция для мобильного меню
-// Функция для мобильного меню
 function initMobileMenu() {
   const menuToggle = document.querySelector('.menu-toggle');
   const menu = document.querySelector('.menu');
   const body = document.body;
 
-  // Если элементы не найдены (например, на странице нет меню), выходим из функции
+  // Если элементов меню на странице нет (например, на странице проекта), просто выходим из функции
   if (!menuToggle || !menu) return;
 
-  // Проверяем, не создан ли уже overlay, если нет - создаем
+  // Создаем или находим overlay
   let overlay = document.querySelector('.menu-overlay');
   if (!overlay) {
     overlay = document.createElement('div');
@@ -260,7 +259,7 @@ function initMobileMenu() {
 
   // 1. Обработчик для кнопки бургера
   menuToggle.addEventListener('click', (e) => {
-    e.stopPropagation(); // Останавливаем всплытие события, чтобы оно не достигло overlay
+    e.stopPropagation(); // Останавливаем всплытие события
     toggleMenu();
   });
 
@@ -281,7 +280,6 @@ function initMobileMenu() {
       
       // 2. (Опционально) Если это якорная ссылка (начинается с #) на этой же странице,
       // даем время меню анимированно закрыться перед скроллом.
-      // Для обычных ссылок (на другие страницы) браузер сделает все сам.
       if (this.getAttribute('href').startsWith('#')) {
         e.preventDefault(); // Отменяем мгновенный скролл
         const targetId = this.getAttribute('href');
@@ -292,7 +290,7 @@ function initMobileMenu() {
           if (targetElement) {
             targetElement.scrollIntoView({ behavior: 'smooth' });
           }
-        }, 300); // Время должно совпадать с длительностью анимации закрытия меню (у вас 0.3s)
+        }, 300); // Время должно совпадать с длительностью анимации закрытия меню
       }
       // Для всех остальных ссылок (например, './robin-project.html') браузер перейдет по ним автоматически после закрытия меню.
     });

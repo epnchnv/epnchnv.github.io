@@ -232,57 +232,68 @@ function cleanup() {
 }
 
 // Функция для мобильного меню
+// Функция для мобильного меню
 function initMobileMenu() {
   const menuToggle = document.querySelector('.menu-toggle');
   const menu = document.querySelector('.menu');
   const body = document.body;
-  
+
+  // Если элементы не найдены (например, на странице нет меню), выходим из функции
   if (!menuToggle || !menu) return;
-  
-  // Проверяем, не создан ли уже overlay
+
+  // Проверяем, не создан ли уже overlay, если нет - создаем
   let overlay = document.querySelector('.menu-overlay');
   if (!overlay) {
     overlay = document.createElement('div');
     overlay.className = 'menu-overlay';
     document.body.appendChild(overlay);
   }
-  
+
+  // Основная функция переключения меню
   const toggleMenu = () => {
     menuToggle.classList.toggle('active');
     menu.classList.toggle('active');
     overlay.classList.toggle('active');
+    // Блокируем прокрутку тела сайта при открытом меню
     body.style.overflow = menu.classList.contains('active') ? 'hidden' : '';
   };
-  
-  // Удаляем старые обработчики если есть
-  menuToggle.removeEventListener('click', toggleMenu);
-  overlay.removeEventListener('click', toggleMenu);
-  
-  // Обработчики событий
+
+  // 1. Обработчик для кнопки бургера
   menuToggle.addEventListener('click', (e) => {
-    e.stopPropagation();
+    e.stopPropagation(); // Останавливаем всплытие события, чтобы оно не достигло overlay
     toggleMenu();
   });
-  
-  overlay.addEventListener('click', toggleMenu);
-  
-  // Закрытие меню при клике на ссылку
+
+  // 2. Обработчик для оверлея: закрываем меню при клике на ПУСТОЕ пространство (оверлей)
+  overlay.addEventListener('click', (e) => {
+    // Закрываем меню только если кликнули именно на overlay, а не на его дочерний элемент (меню)
+    if (e.target === overlay) {
+      toggleMenu();
+    }
+  });
+
+  // 3. САМОЕ ВАЖНОЕ: Обработчик для кликов по самому меню
+  menu.addEventListener('click', (e) => {
+    // Останавливаем всплытие события. Клик по меню не дойдет до overlay.
+    e.stopPropagation();
+  });
+
+  // 4. Обработчик для ссылок внутри меню
   const menuLinks = menu.querySelectorAll('.menu__list-link');
   menuLinks.forEach(link => {
     link.addEventListener('click', () => {
-      if (menu.classList.contains('active')) {
-        toggleMenu();
-      }
+      // Закрываем меню после клика по любой ссылке
+      toggleMenu();
     });
   });
-  
-  // Закрытие меню при resize на десктоп
+
+  // 5. Закрытие меню при изменении размера окна на десктоп
   const handleResize = () => {
     if (window.innerWidth > 768 && menu.classList.contains('active')) {
       toggleMenu();
     }
   };
-  
+
   window.addEventListener('resize', handleResize);
 }
 

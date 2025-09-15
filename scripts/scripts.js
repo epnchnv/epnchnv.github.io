@@ -102,28 +102,30 @@ function adjustCaptionSize() {
   DOM.captionContainer.style.minHeight = sizes.caption.minHeight;
 }
 
-// Обработчик для мобильного переключения фото
 function initPhotoStackInteractions() {
   const photoStacks = document.querySelectorAll('.photo-stack');
   
   photoStacks.forEach(stack => {
-    let isActive = false; // Отслеживаем текущее состояние
+    let isActive = false;
     
     const handleStackClick = (e) => {
-      // Для touch-устройств предотвращаем стандартное поведение
       if (Utils.isTouchDevice()) {
         e.preventDefault();
       }
       
-      // Переключаем состояние
       isActive = !isActive;
-      stack.classList.toggle('mobile-active', isActive);
       
-      // Блокируем дальнейшие события на короткое время
+      if (isActive) {
+        stack.classList.add('mobile-active');
+      } else {
+        stack.classList.remove('mobile-active');
+      }
+      
+      // Блокируем дальнейшие клики на короткое время
       stack.style.pointerEvents = 'none';
       setTimeout(() => {
         stack.style.pointerEvents = 'auto';
-      }, 500); // Увеличили время блокировки до 500мс
+      }, 500);
     };
     
     // Удаляем старые обработчики если есть
@@ -132,11 +134,11 @@ function initPhotoStackInteractions() {
       stack.removeEventListener('touchstart', stack._clickHandler);
     }
     
-    // Добавляем обработчики для всех устройств
+    // Добавляем новые обработчики
     stack.addEventListener('click', handleStackClick);
     stack.addEventListener('touchstart', handleStackClick, { passive: false });
     
-    // Сохраняем ссылку на обработчик для будущей очистки
+    // Сохраняем ссылку на обработчик для возможной очистки
     stack._clickHandler = handleStackClick;
   });
 }

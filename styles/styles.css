@@ -1002,42 +1002,43 @@ button:focus-visible {
     margin-bottom: var(--space-xl); /* Добавляем отступ снизу */
   }
   .photo-item {
-    width: 280px; /* Немного уменьшим для мобильных */
+    position: relative;
+    width: 280px;
     height: 370px;
     max-width: 85%;
-    left: 50% !important; /* Центрируем оба фото */
-    transform: translateX(-50%) rotate(0deg) !important;
+    left: auto !important;
+    transform: none !important;
+    margin: 0 auto;
+    opacity: 1 !important;
+    transition: transform 0.5s ease, opacity 0.5s ease;
   }
   
-  /* Первое фото изначально сверху */
+  /* Первое фото видимо */
   .photo-1 {
-    top: 10px;
+    position: relative;
+    top: 0;
     z-index: 2;
   }
   
-  /* Второе фото изначально снизу */
+  /* Второе фото скрыто под первым */
   .photo-2 {
-    top: 30px;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
     z-index: 1;
-    opacity: 0.9;
+    opacity: 0;
   }
   
-  /* Состояние, когда фото поменялись местами */
+  /* Состояние, когда показываем второе фото */
   .photo-stack.mobile-active .photo-1 {
-    top: 30px;
+    opacity: 0;
     z-index: 1;
-    opacity: 0.9;
   }
   
   .photo-stack.mobile-active .photo-2 {
-    top: 10px;
+    opacity: 1;
     z-index: 2;
-  }
-  
-  /* Плавная анимация переключения */
-  .photo-item {
-    transition: all 0.5s ease;
-  }
   }
   
   /* Footer */

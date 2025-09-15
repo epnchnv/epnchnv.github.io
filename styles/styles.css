@@ -179,7 +179,7 @@ button:focus-visible {
   opacity: 0;
   visibility: hidden;
   transition: all 0.3s ease;
-  z-index: 998; /* Ниже меню */
+  z-index: 1000; /* Ниже меню */
 }
 
 .menu {
@@ -192,7 +192,7 @@ button:focus-visible {
   background: var(--white);
   box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
   transition: right 0.3s ease;
-  z-index: 999; /* Выше оверлея */
+  z-index: 1001; /* Выше оверлея */
   padding: 80px 20px 20px;
   overflow-y: auto;
 }
@@ -216,7 +216,7 @@ button:focus-visible {
   border: none;
   cursor: pointer;
   padding: 0;
-  z-index: var(--z-toggle);
+  z-index: 1002;
 }
 
 .menu-toggle span {

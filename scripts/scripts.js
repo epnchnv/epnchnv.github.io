@@ -107,19 +107,23 @@ function initPhotoStackInteractions() {
   const photoStacks = document.querySelectorAll('.photo-stack');
   
   photoStacks.forEach(stack => {
+    let isActive = false; // Отслеживаем текущее состояние
+    
     const handleStackClick = (e) => {
       // Для touch-устройств предотвращаем стандартное поведение
       if (Utils.isTouchDevice()) {
         e.preventDefault();
       }
       
-      stack.classList.toggle('mobile-active');
+      // Переключаем состояние
+      isActive = !isActive;
+      stack.classList.toggle('mobile-active', isActive);
       
       // Блокируем дальнейшие события на короткое время
       stack.style.pointerEvents = 'none';
       setTimeout(() => {
         stack.style.pointerEvents = 'auto';
-      }, 300);
+      }, 500); // Увеличили время блокировки до 500мс
     };
     
     // Удаляем старые обработчики если есть
@@ -132,6 +136,7 @@ function initPhotoStackInteractions() {
     stack.addEventListener('click', handleStackClick);
     stack.addEventListener('touchstart', handleStackClick, { passive: false });
     
+    // Сохраняем ссылку на обработчик для будущей очистки
     stack._clickHandler = handleStackClick;
   });
 }

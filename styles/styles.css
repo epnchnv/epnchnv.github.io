@@ -1444,3 +1444,41 @@ button:focus-visible {
     background: #1a6a8a; /* Darker version of primary color */
   }
 }
+
+/* ФИКС ДЛЯ МОБИЛЬНОГО МЕНЮ НА ГЛАВНОЙ СТРАНИЦЕ */
+@media (max-width: 768px) {
+  .menu-toggle {
+    z-index: 1003 !important;
+    position: relative;
+  }
+  
+  .menu {
+    z-index: 1002 !important;
+  }
+  
+  .menu-overlay {
+    z-index: 1001 !important;
+  }
+  
+  /* Убеждаемся, что фото-стек не перекрывает меню */
+  .about__photos {
+    z-index: 1 !important;
+  }
+  
+  .photo-stack {
+    z-index: 1 !important;
+  }
+}
+
+/* Гарантируем, что меню всегда поверх других элементов */
+.menu-toggle {
+  z-index: 1002;
+}
+
+.menu {
+  z-index: 1001;
+}
+
+.menu-overlay {
+  z-index: 1000;
+}

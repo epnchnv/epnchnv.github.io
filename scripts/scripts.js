@@ -199,33 +199,39 @@ function initMobileMenu() {
   }
 
   const toggleMenu = () => {
-    menuToggle.classList.toggle('active');
-    menu.classList.toggle('active');
-    overlay.classList.toggle('active');
-    body.style.overflow = menu.classList.contains('active') ? 'hidden' : '';
+    const isActive = menu.classList.contains('active');
+    menuToggle.classList.toggle('active', !isActive);
+    menu.classList.toggle('active', !isActive);
+    overlay.classList.toggle('active', !isActive);
+    body.style.overflow = !isActive ? 'hidden' : '';
   };
 
-  // Обработчик для кнопки бургера - останавливаем всплытие
-  menuToggle.addEventListener('click', (e) => {
-    e.preventDefault();
+  // Обработчик для кнопки бургера
+  const handleMenuToggleClick = (e) => {
     e.stopPropagation();
     toggleMenu();
-  });
+  };
 
   // Обработчик для оверлея
-  overlay.addEventListener('click', (e) => {
+  const handleOverlayClick = (e) => {
     if (e.target === overlay) {
       toggleMenu();
     }
-  });
+  };
 
   // Обработчик для ссылок в меню
+  const handleMenuLinkClick = function(e) {
+    e.stopPropagation();
+    toggleMenu();
+  };
+
+  // Добавляем обработчики
+  menuToggle.addEventListener('click', handleMenuToggleClick);
+  overlay.addEventListener('click', handleOverlayClick);
+
   const menuLinks = menu.querySelectorAll('.menu__list-link');
   menuLinks.forEach(link => {
-    link.addEventListener('click', function(e) {
-      e.stopPropagation();
-      toggleMenu();
-    });
+    link.addEventListener('click', handleMenuLinkClick);
   });
 
   // Закрываем меню при изменении размера окна
@@ -239,10 +245,10 @@ function initMobileMenu() {
 
   // Функция для очистки обработчиков
   const cleanupMenu = () => {
-    menuToggle.removeEventListener('click', toggleMenu);
-    overlay.removeEventListener('click', toggleMenu);
+    menuToggle.removeEventListener('click', handleMenuToggleClick);
+    overlay.removeEventListener('click', handleOverlayClick);
     menuLinks.forEach(link => {
-      link.removeEventListener('click', toggleMenu);
+      link.removeEventListener('click', handleMenuLinkClick);
     });
     window.removeEventListener('resize', handleResize);
   };
@@ -252,26 +258,26 @@ function initMobileMenu() {
 
 // Инициализация приложения
 function initApp() {
-  // Предзагрузка изображений (опционально)
-  if (IMAGES_CONFIG && IMAGES_CONFIG.paths) {
+  console.log('Инициализация приложения...');
+  
+  // Предзагрузка изображений только для Robin Project
+  if (DOM.image && IMAGES_CONFIG && IMAGES_CONFIG.paths) {
     IMAGES_CONFIG.paths.forEach(path => {
       const img = new Image();
       img.src = path;
     });
-  }
-  
-  // Настройка обработчиков только для страницы Robin Project
-  if (DOM.image && DOM.button) {
+    
+    // Настройка обработчиков только для страницы Robin Project
     DOM.image.addEventListener('error', handleImageError);
     DOM.button.addEventListener('click', showRandomImage);
-    
-    // Инициализация взаимодействий только для фото-стеков
-    initPhotoStackInteractions();
     
     // Настройка адаптивности только для Robin Project
     adjustCaptionSize();
     window.addEventListener('resize', Utils.debounce(adjustCaptionSize, 250));
   }
+  
+  // Инициализация фото-стеков (есть на главной странице)
+  initPhotoStackInteractions();
   
   // Добавляем класс для плавной анимации
   document.body.classList.add('loaded');
@@ -281,9 +287,10 @@ function initApp() {
 
 // Запуск приложения после загрузки DOM
 document.addEventListener('DOMContentLoaded', function() {
+  console.log('DOM загружен, инициализируем приложение...');
   initApp();
   
-  // Всегда инициализируем мобильное меню
+  // Инициализируем мобильное меню
   const cleanupMenu = initMobileMenu();
   
   // Сохраняем функцию очистки для возможного использования
@@ -299,10 +306,12 @@ function cleanup() {
   window.removeEventListener('resize', Utils.debounce(adjustCaptionSize, 250));
   
   // Удаляем обработчики с photo stacks
-  if (DOM.photoStacks) {
-    DOM.photoStacks.forEach(stack => {
+  const photoStacks = document.querySelectorAll('.photo-stack');
+  if (photoStacks.length) {
+    photoStacks.forEach(stack => {
       if (stack._clickHandler) {
         stack.removeEventListener('click', stack._clickHandler);
+        stack.removeEventListener('touchstart', stack._clickHandler);
       }
     });
   }

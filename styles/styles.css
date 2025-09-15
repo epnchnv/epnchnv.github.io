@@ -1,4 +1,4 @@
-/* ===== VARIABLES ===== */
+/* ===== VARIABLES & RESET ===== */
 :root {
   /* Colors */
   --primary-color: #2184a8;
@@ -37,12 +37,17 @@
   --transition-fast: 0.2s ease;
   --transition-normal: 0.3s ease;
   --transition-slow: 0.5s ease;
+  
+  /* Z-index layers */
+  --z-overlay: 998;
+  --z-menu: 999;
+  --z-toggle: 1000;
 }
 
-/* ===== RESET & BASE STYLES ===== */
+/* Reset & Base */
 *,
-*::after,
-*::before {
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -50,33 +55,44 @@
 
 html {
   scroll-behavior: smooth;
+  font-size: 16px;
+  line-height: 1.6;
 }
 
 body {
   min-height: 100vh;
   background-color: #eee;
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: cover;
   font-family: var(--font-main);
+  color: var(--text-color);
   display: flex;
   flex-direction: column;
-  line-height: 1.6;
-  color: var(--text-color);
+  overflow-x: hidden;
 }
 
-/* Improved focus styles for accessibility */
-a, button, input, textarea {
-  outline: none;
-}
-
+/* Accessibility */
 a:focus-visible,
 button:focus-visible {
   outline: 2px solid var(--primary-color);
   outline-offset: 2px;
 }
 
-/* ===== LAYOUT ===== */
+/* Skip link for accessibility */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--primary-color);
+  color: white;
+  padding: 8px;
+  z-index: 10000;
+  transition: top 0.3s;
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+/* ===== LAYOUT COMPONENTS ===== */
 .container {
   max-width: 1190px;
   padding: 0 var(--space-lg);
@@ -86,9 +102,38 @@ button:focus-visible {
 
 .main-content {
   flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
 }
 
-/* ===== HEADER ===== */
+.section {
+  padding: var(--space-xxl) 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.section__title {
+  text-align: center;
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  margin-bottom: var(--space-xl);
+  color: var(--text-color);
+  position: relative;
+  padding-bottom: var(--space-md);
+}
+
+.section__title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: var(--secondary-color);
+  border-radius: 3px;
+}
+
+/* ===== HEADER & NAVIGATION ===== */
 .header {
   padding: var(--space-lg) 0;
   background-color: var(--gray-light);
@@ -96,6 +141,7 @@ button:focus-visible {
   top: 0;
   z-index: 100;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
 }
 
 .header__inner {
@@ -111,12 +157,53 @@ button:focus-visible {
   height: 60px;
   border-radius: var(--radius-circle);
   transition: transform var(--transition-normal);
+  object-fit: cover;
 }
 
 .logo:hover {
   transform: scale(1.05);
 }
 
+/* Mobile menu toggle */
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: var(--z-toggle);
+}
+
+.menu-toggle span {
+  display: block;
+  width: 25px;
+  height: 3px;
+  background: var(--primary-color);
+  margin: 2px 0;
+  transition: var(--transition-normal);
+  border-radius: 2px;
+  transform-origin: center;
+}
+
+/* Active burger state */
+.menu-toggle.active span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.menu-toggle.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.menu-toggle.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(7px, -6px);
+}
+
+/* Navigation menu */
 .menu__list {
   display: flex;
   list-style: none;
@@ -133,9 +220,11 @@ button:focus-visible {
   display: block;
   border-radius: var(--radius-md);
   font-weight: 500;
+  text-decoration: none;
 }
 
-.menu__list-link:hover {
+.menu__list-link:hover,
+.menu__list-link.active {
   color: var(--secondary-color);
   background-color: rgba(245, 166, 201, 0.1);
 }
@@ -159,6 +248,7 @@ button:focus-visible {
   height: 200%;
   background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
   animation: pulse 15s infinite linear;
+  pointer-events: none;
 }
 
 @keyframes pulse {
@@ -216,6 +306,8 @@ button:focus-visible {
   position: relative;
   overflow: hidden;
   z-index: 1;
+  border: none;
+  cursor: pointer;
 }
 
 .hero__button::before {
@@ -239,42 +331,19 @@ button:focus-visible {
   left: 100%;
 }
 
-/* ===== SECTIONS ===== */
-.section {
-  padding: var(--space-xxl) 0;
-}
-
-.section__title {
-  text-align: center;
-  font-size: clamp(1.8rem, 4vw, 2.5rem);
-  margin-bottom: var(--space-xl);
-  color: var(--text-color);
-  position: relative;
-  padding-bottom: var(--space-md);
-}
-
-.section__title::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 60px;
-  height: 3px;
-  background: var(--secondary-color);
-  border-radius: 3px;
-}
-
+/* ===== ABOUT SECTION ===== */
 .about {
   background: var(--bg-light);
+  padding-bottom: var(--space-xxl); /* Увеличиваем отступ снизу */
 }
 
-/* About content */
 .about__content {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: var(--space-xl);
   align-items: start;
+  position: relative;
+  z-index: 2; /* Поднимаем контент над фото */
 }
 
 .about__text {
@@ -292,6 +361,7 @@ button:focus-visible {
   max-width: 500px;
   margin: 0 auto;
   min-height: 530px;
+  z-index: 1; /* Фото остаются под контентом */
 }
 
 .photo-stack {
@@ -299,6 +369,7 @@ button:focus-visible {
   width: 100%;
   height: 100%;
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .photo-item {
@@ -313,57 +384,88 @@ button:focus-visible {
   will-change: transform;
 }
 
-.photo-item img {
+.photo-wrapper {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.photo-wrapper img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   transition: transform var(--transition-slow);
+  display: block;
 }
 
 .photo-1 {
   top: 20px;
-  left: 50%;
-  transform: translateX(-50%) rotate(-5deg);
+  left: 40%; /* Сдвигаем левое фото левее */
+  transform: translateX(-50%);
   z-index: 2;
 }
 
 .photo-2 {
   top: 40px;
-  left: 50%;
-  transform: translateX(-50%) rotate(5deg);
+  left: 60%; /* Сдвигаем правое фото правее */
+  transform: translateX(-50%);
   z-index: 1;
 }
 
 .photo-stack:hover .photo-1 {
-  transform: translateX(-50%) rotate(5deg) translateY(30px);
+  transform: translateX(-50%) translateY(20px) translateX(-20px); /* Сдвигаем левее при hover */
   z-index: 2;
 }
 
 .photo-stack:hover .photo-2 {
-  transform: translateX(-50%) rotate(-5deg) translateY(-30px);
+  transform: translateX(-50%) translateY(-20px) translateX(20px); /* Сдвигаем правее при hover */
   z-index: 3;
 }
 
-.photo-stack:hover .photo-item img {
+.photo-stack:hover .photo-wrapper img {
   transform: scale(1.05);
 }
 
-/* Fallback image style */
-.photo-item img[src="image/logo.jpeg"] {
-  object-fit: contain;
-  padding: var(--space-lg);
-  background-color: #e0e0e0;
+/* ДОБАВЬТЕ эти стили: */
+.photo-stack.mobile-active .photo-1 {
+  transform: translateX(-50%) translateX(-30px) !important;
+  z-index: 1;
+  opacity: 0.9;
 }
 
-/* ===== PROJECTS ===== */
+.photo-stack.mobile-active .photo-2 {
+  transform: translateX(-50%) translateX(30px) !important;
+  z-index: 2;
+}
+
+/* ===== PROJECTS SECTION ===== */
 .projects {
   background: var(--white);
+  position: relative;
+  z-index: 3; /* Поднимаем секцию проектов над about */
+  margin-top: 0; /* Убираем возможные отрицательные отступы */
+  padding-top: var(--space-xxl);
+}
+
+/* Добавляем дополнительный отступ для безопасности */
+.projects::before {
+  content: '';
+  position: absolute;
+  top: -30px;
+  left: 0;
+  width: 100%;
+  height: 30px;
+  background: var(--white);
+  z-index: 2;
 }
 
 .projects__grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: var(--space-lg);
+  position: relative;
+  z-index: 3;
 }
 
 .project__card {
@@ -448,6 +550,8 @@ button:focus-visible {
   text-align: center;
   margin-top: auto;
   font-weight: 500;
+  border: none;
+  cursor: pointer;
 }
 
 .project__link:hover {
@@ -459,64 +563,16 @@ button:focus-visible {
   background: #ccc;
   cursor: not-allowed;
   transform: none;
+  pointer-events: none;
 }
 
-/* ===== SKILLS ===== */
-.skills__grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: var(--space-md);
-}
-
-.skill__item {
-  text-align: center;
-  padding: var(--space-xl) var(--space-md);
-  background: var(--white);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow);
-  position: relative;
-  transition: transform var(--transition-normal);
-}
-
-.skill__item:hover {
-  transform: translateY(-5px);
-}
-
-.skill-level {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: #ffd700;
-  color: var(--text-color);
-  padding: 3px 8px;
-  border-radius: 10px;
-  font-size: 0.7rem;
-  font-weight: 600;
-}
-
-.skill__item i {
-  font-size: 2.5rem;
-  color: var(--primary-color);
-  margin-bottom: var(--space-md);
-}
-
-.skill__item h3 {
-  margin-bottom: var(--space-sm);
-  color: var(--text-color);
-  font-size: 1.2rem;
-}
-
-.skill__item p {
-  color: var(--text-light);
-  font-size: 0.9rem;
-}
-
-/* ===== ROBIN PROJECT SECTION ===== */
+/* ===== ROBIN PROJECT STYLES ===== */
 .project-main {
   min-height: 80vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  padding: var(--space-xl) 0;
 }
 
 .robin-project {
@@ -618,8 +674,11 @@ button:focus-visible {
 .footer {
   background: var(--bg-dark);
   color: var(--white);
-  padding: var(--xl) 0;
+  padding: var(--space-xl) 0;
   flex-shrink: 0;
+  margin-top: auto;
+  position: relative;
+  z-index: 4; /* Поднимаем футер над всеми секциями */
 }
 
 .footer__content {
@@ -639,6 +698,7 @@ button:focus-visible {
   color: var(--white);
   font-size: 1.5rem;
   transition: all var(--transition-normal);
+  text-decoration: none;
 }
 
 .social__link:hover {
@@ -646,41 +706,14 @@ button:focus-visible {
   transform: translateY(-3px);
 }
 
-/* ===== MEDIA QUERIES ===== */
-
-/* Tablets */
-@media (max-width: 1024px) {
-  .about__content {
-    gap: var(--space-lg);
-  }
-  
-  .robin-sun {
-    gap: var(--space-md);
-  }
-}
-
-/* Large mobile devices */
-
+/* ===== MOBILE STYLES ===== */
 @media (max-width: 768px) {
-  .header__inner {
-    flex-direction: row; /* Изменяем на row вместо column */
-    justify-content: space-between; /* Распределяем пространство */
-    text-align: left; /* Выравнивание по левому краю */
-    padding: 0 15px; /* Добавляем отступы */
-  }
-  
+  /* Mobile menu */
   .menu-toggle {
-    display: flex; /* Показываем бургер-кнопку */
-    order: 2; /* Перемещаем кнопку в конец */
-  }
-  
-  .logo {
-    order: 1; /* Логотип первым */
-    margin-right: auto; /* Прижимаем к левому краю */
+    display: flex;
   }
   
   .menu {
-    order: 3; /* Меню последним */
     position: fixed;
     top: 0;
     right: -100%;
@@ -690,7 +723,7 @@ button:focus-visible {
     background: var(--white);
     box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
     transition: right var(--transition-normal);
-    z-index: 999;
+    z-index: var(--z-menu);
     padding: 80px 20px 20px;
     overflow-y: auto;
   }
@@ -717,7 +750,7 @@ button:focus-visible {
     border-radius: 0;
   }
   
-  /* Затемнение фона */
+  /* Menu overlay */
   .menu-overlay {
     position: fixed;
     top: 0;
@@ -728,27 +761,29 @@ button:focus-visible {
     opacity: 0;
     visibility: hidden;
     transition: all var(--transition-normal);
-    z-index: 998;
+    z-index: var(--z-overlay);
   }
   
   .menu-overlay.active {
     opacity: 1;
     visibility: visible;
   }
-}
-
-/* Для очень маленьких экранов */
-@media (max-width: 480px) {
-  .header__inner {
-    padding: 0 10px;
+  
+  /* Header adjustments */
+  .header {
+    padding: 10px 0;
   }
   
   .logo {
-    width: 45px;
-    height: 45px;
+    width: 50px;
+    height: 50px;
   }
-}
-@media (max-width: 768px) {
+  
+  /* About section - ФИКС ПЕРЕКРЫТИЯ */
+  .about {
+    padding-bottom: var(--space-xxl); /* Увеличиваем отступ */
+    overflow: visible; /* Разрешаем overflow */
+  }
   
   .about__content {
     grid-template-columns: 1fr;
@@ -758,246 +793,33 @@ button:focus-visible {
   .about__photos {
     order: -1;
     min-height: 400px;
+    margin-bottom: var(--space-xl); /* Добавляем отступ снизу */
   }
   
   .photo-item {
     width: 300px;
     height: 400px;
+    max-width: 90%; /* Ограничиваем ширину */
   }
   
-  .footer__content {
-    flex-direction: column;
-    text-align: center;
-  }
-  
-  .section {
-    padding: var(--space-xl) 0;
-  }
-}
-
-/* Small mobile devices */
-@media (max-width: 480px) {
-  .hero {
-    padding: var(--space-xl) 0;
-  }
-  
-  .hero__button {
-    padding: var(--space-md) var(--space-lg);
-  }
-  
-  .menu__list {
-    flex-direction: column;
-    align-items: center;
-    gap: var(--space-sm);
-  }
-  
-  .menu__list-link {
-    padding: var(--space-sm);
-  }
-  
-  .projects__grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .skills__grid {
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  }
-  
-  .photo-item {
-    width: 250px;
-    height: 350px;
-  }
-}
-
-/* High DPI screens */
-@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-  .logo {
-    background-image: url('image/logo@2x.jpeg');
-    background-size: contain;
-  }
-}
-
-/* Reduced motion for accessibility */
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-  
-  html {
-    scroll-behavior: auto;
-  }
-}
-
-/* Dark mode support */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text-color: #f0f0f0;
-    --text-light: #b0b0b0;
-    --bg-light: #2a2a2a;
-    --white: #1a1a1a;
-    --gray-light: #444;
-    --gray-lighter: #555;
-    --shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    --shadow-hover: 0 10px 25px rgba(0, 0, 0, 0.4);
-  }
-  
-  .hero {
-    background: linear-gradient(135deg, #3a3a3a 0%, #2a1a35 100%);
-  }
-  
-  .project__card,
-  .skill__item {
-    background: #333;
-  }
-  
-  .project__tags span {
-    background: #444;
-    color: #ddd;
-  }
-}
-
-/* Print styles */
-@media print {
-  * {
-    background: transparent !important;
-    color: black !important;
-    box-shadow: none !important;
-    text-shadow: none !important;
-  }
-  
-  .header,
-  .footer,
-  .button,
-  .project__link {
-    display: none !important;
-  }
-  
-  body {
-    font-size: 12pt;
-    line-height: 1.5;
-  }
-  
-  a {
-    text-decoration: underline;
-  }
-  
-  .container {
-    max-width: none;
-  }
-}
-
-/* ===== ДЕСКТОПНЫЕ ОТСТУПЫ ===== */
-@media (min-width: 769px) {
-  .about__content {
-    gap: var(--space-xxl); /* Увеличиваем расстояние между текстом и фото */
-    margin-bottom: var(--space-xl);
-  }
-  
-  .about__text {
-    padding-right: var(--space-lg); /* Отступ справа от текста */
-  }
-  
-  .about__photos {
-    padding-left: var(--space-lg); /* Отступ слева от фото */
-  }
-  
-  /* Добавляем отступы между секциями */
-  .hero {
-    margin-bottom: var(--space-xxl);
-  }
-  
-  .about {
-    margin-bottom: var(--space-xxl);
-  }
-  
+  /* Projects section - ФИКС ПЕРЕКРЫТИЯ */
   .projects {
-    margin-bottom: var(--space-xxl);
+    padding-top: var(--space-xl);
+    margin-top: 0;
   }
   
-  /* Увеличиваем отступы внутри карточек проектов */
-  .project__info {
-    padding: var(--space-xl);
+  .projects::before {
+    display: none; /* Убираем псевдоэлемент на мобильных */
   }
   
-  .project__tags {
-    margin: var(--space-lg) 0;
-  }
-}
-
-/* ===== ДОПОЛНИТЕЛЬНЫЕ ОТСТУПЫ ДЛЯ БОЛЬШИХ ЭКРАНОВ ===== */
-@media (min-width: 1024px) {
-  .about__content {
-    gap: calc(var(--space-xxl) * 1.5);
-  }
-  
-  .about__text {
-    padding-right: var(--space-xl);
-  }
-  
-  .about__photos {
-    padding-left: var(--space-xl);
-  }
-  
-  /* Увеличиваем общие отступы секций */
-  .section {
-    padding: calc(var(--space-xxl) * 1.5) 0;
-  }
-}
-
-/* ===== ОТСТУПЫ ДЛЯ ОЧЕНЬ БОЛЬШИХ ЭКРАНОВ ===== */
-@media (min-width: 1440px) {
-  .about__content {
-    gap: calc(var(--space-xxl) * 2);
-  }
-  
-  .container {
-    padding: 0 var(--space-xl);
-  }
-}
-
-/* ===== МОБИЛЬНАЯ ВЕРСИЯ STACK ФОТО ===== */
-@media (max-width: 768px) {
-  .about__photos {
-    min-height: 400px;
-    margin-bottom: var(--space-lg);
-  }
-  
-  .photo-stack {
-    cursor: pointer;
-    touch-action: manipulation;
-  }
-  
-  .photo-item {
-    width: 280px;
-    height: 370px;
-    transition: transform 0.5s ease;
-  }
-  
-  /* Переопределяем десктопные стили для мобильных */
-  .photo-1 {
-    transform: translateX(-50%) rotate(-3deg) !important;
-    z-index: 2;
-  }
-  
-  .photo-2 {
-    transform: translateX(-50%) rotate(3deg) !important;
-    z-index: 1;
-    opacity: 0.9;
-  }
-  
-  /* Отключаем hover эффекты на мобильных */
+  /* Disable hover effects on mobile */
   .photo-stack:hover .photo-1,
   .photo-stack:hover .photo-2,
-  .photo-stack:hover .photo-item img {
+  .photo-stack:hover .photo-wrapper img {
     transform: none !important;
   }
   
-  /* Активное состояние при тапе */
+  /* Mobile active state for photo stack */
   .photo-stack.mobile-active .photo-1 {
     transform: translateX(-50%) rotate(3deg) translateY(20px) !important;
     z-index: 1;
@@ -1009,121 +831,88 @@ button:focus-visible {
     z-index: 2;
   }
   
-  /* Анимация для плавного переключения */
-  .photo-stack.mobile-active .photo-item {
-    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
-  }
-}
-
-/* Для очень маленьких экранов */
-@media (max-width: 360px) {
-  .photo-item {
-    width: 250px;
-    height: 330px;
-  }
-}
-
-/* ===== ФИКС ДЛЯ КЛИКА ПО ФОТО ===== */
-.photo-wrapper {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  border-radius: var(--radius-lg);
-}
-
-.photo-wrapper img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  pointer-events: none; /* Важно! Предотвращает клики по самому изображению */
-}
-
-/* Делаем весь photo-item кликабельным */
-.photo-item {
-  cursor: pointer;
-  user-select: none;
-  -webkit-tap-highlight-color: transparent;
-}
-
-/* Улучшаем feedback при клике */
-.photo-item:active {
-  transform: scale(0.98);
-  transition: transform 0.1s ease;
-}
-
-/* Для мобильных устройств */
-@media (max-width: 768px) {
-  .photo-stack {
-    position: relative;
-    z-index: 10;
+  /* Footer */
+  .footer__content {
+    flex-direction: column;
+    text-align: center;
   }
   
-  .photo-item {
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    user-select: none;
+  /* Section padding */
+  .section {
+    padding: var(--space-xl) 0;
   }
-}
-
-/* Предотвращаем контекстное меню при долгом нажатии */
-.photo-stack {
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  user-select: none;
-}
-
-/* Предотвращаем выделение текста при кликах */
-.photo-stack,
-.photo-item,
-.photo-wrapper {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  -webkit-tap-highlight-color: transparent;
-}
-
-/* Убираем синее подсвечивание на iOS */
-.photo-stack {
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-}
-
-/* ===== ФИКС ДЛЯ ROBIN PROJECT НА МОБИЛЬНЫХ ===== */
-@media (max-width: 768px) {
+  
+  /* Robin project adjustments */
   .robin-sun {
-    gap: var(--space-xl); /* Увеличиваем расстояние между элементами */
+    gap: var(--space-xl);
     padding: var(--space-md) 0;
   }
   
   .image-container {
     max-width: 320px;
     min-height: 250px;
-    margin-bottom: var(--space-lg); /* Добавляем отступ снизу */
+    margin-bottom: var(--space-lg);
   }
   
   .caption-container {
     max-width: 320px;
     min-height: 80px;
-    margin-top: var(--space-md); /* Отступ сверху */
-    order: 2; /* Убеждаемся, что подпись идет после фото */
+    margin-top: var(--space-md);
   }
   
   #my_image {
     max-height: 400px;
-    width: 100%;
   }
   
   #figcaption {
     font-size: 14px;
     padding: var(--space-md);
-    line-height: 1.5;
   }
 }
 
-/* ===== ДЛЯ ОЧЕНЬ МАЛЕНЬКИХ ЭКРАНОВ ===== */
+/* Small mobile devices */
 @media (max-width: 480px) {
+  .menu {
+    width: 85%;
+  }
+  
+  .header__inner {
+    padding: 0 10px;
+  }
+  
+  .logo {
+    width: 45px;
+    height: 45px;
+  }
+  
+  .hero {
+    padding: var(--space-xl) 0;
+  }
+  
+  .hero__button {
+    padding: var(--space-md) var(--space-lg);
+  }
+  
+  .projects__grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .photo-item {
+    width: 250px;
+    height: 350px;
+  }
+  
+  /* Дополнительные отступы для мобильных */
+  .about {
+    padding-bottom: var(--space-xl);
+  }
+  
+  .about__photos {
+    min-height: 350px;
+    margin-bottom: var(--space-lg);
+  }
+  
+  /* Robin project small screens */
   .robin-sun {
     gap: var(--space-lg);
   }
@@ -1151,239 +940,173 @@ button:focus-visible {
   }
 }
 
-/* ===== ГАРАНТИРУЕМ ПРАВИЛЬНЫЙ ПОРЯДОК ЭЛЕМЕНТОВ ===== */
-.robin-sun {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.image-container {
-  order: 1;
-}
-
-.caption-container {
-  order: 2;
-}
-
-/* ===== ПРЕДОТВРАЩАЕМ НАЛОЖЕНИЕ ===== */
-.project-main {
-  min-height: auto;
-  padding: var(--space-xl) 0;
-}
-
-.robin-project {
-  order: 0;
-  margin-bottom: var(--space-xl);
-}
-
-/* ===== ДЛЯ ВЕРТИКАЛЬНОГО ВЫРАВНИВАНИЯ ===== */
-@media (max-height: 700px) and (max-width: 768px) {
-  .project-main {
-    padding: var(--space-lg) 0;
-  }
-  
-  .image-container {
-    max-height: 300px;
-  }
-  
-  #my_image {
-    max-height: 300px;
-  }
-}
-
-/* ===== ФИКС ОТСТУПА МЕЖДУ ПОДПИСЬЮ И ФУТЕРОМ ===== */
-.project-main {
-  padding-bottom: var(--space-xxl); /* Добавляем отступ снизу */
-  min-height: calc(100vh - 200px); /* Обеспечиваем минимальную высоту */
-}
-
-.robin-sun {
-  margin-bottom: var(--space-xl); /* Отступ после блока с подписью */
-}
-
-/* Специфичные стили для мобильных устройств */
-@media (max-width: 768px) {
-  .project-main {
-    padding-bottom: calc(var(--space-xxl) * 1.5); /* Больший отступ на мобильных */
-    min-height: calc(100vh - 150px);
-  }
-  
-  .robin-sun {
-    margin-bottom: var(--space-xxl);
-    gap: var(--space-xl);
-  }
-  
-  .caption-container {
-    margin-bottom: var(--space-lg); /* Дополнительный отступ для подписи */
-  }
-}
-
-/* Для очень маленьких экранов */
-@media (max-width: 480px) {
-  .project-main {
-    padding-bottom: calc(var(--space-xxl) * 2);
-  }
-  
-  .robin-sun {
-    margin-bottom: calc(var(--space-xxl) * 1.5);
-  }
-  
-  .caption-container {
-    margin-bottom: var(--space-xl);
-  }
-}
-
-/* Гарантируем, что футер не прилипает к контенту */
-.footer {
-  margin-top: auto; /* Футер всегда внизу */
-}
-
-/* Дополнительная защита от наложения */
-body {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
-.main-content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-/* ===== МОБИЛЬНОЕ МЕНЮ ===== */
-.menu-toggle {
-  display: none;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 30px;
-  height: 30px;
-  background: none;
-  border: none;
-  cursor: pointer;
+/* ===== UTILITY CLASSES ===== */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
   padding: 0;
-  z-index: 1000;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
-.menu-toggle span {
-  display: block;
-  width: 25px;
-  height: 3px;
-  background: var(--primary-color);
-  margin: 2px 0;
-  transition: var(--transition-normal);
-  border-radius: 2px;
+.text-center {
+  text-align: center;
 }
 
-/* Стили для активного бургера */
-.menu-toggle.active span:nth-child(1) {
-  transform: rotate(45deg) translate(5px, 5px);
+.mb-1 { margin-bottom: var(--space-sm); }
+.mb-2 { margin-bottom: var(--space-md); }
+.mb-3 { margin-bottom: var(--space-lg); }
+.mb-4 { margin-bottom: var(--space-xl); }
+
+/* ===== ДОПОЛНИТЕЛЬНЫЕ ФИКСЫ ДЛЯ ПЕРЕКРЫТИЯ ===== */
+/* Гарантируем, что секция about не выходит за свои границы */
+.about {
+  isolation: isolate; /* Создаем новый контекст наложения */
 }
 
-.menu-toggle.active span:nth-child(2) {
-  opacity: 0;
+/* Убеждаемся, что фото остаются внутри своей секции */
+.photo-stack {
+  contain: layout; /* Оптимизация производительности */
 }
 
-.menu-toggle.active span:nth-child(3) {
-  transform: rotate(-45deg) translate(7px, -6px);
+/* Фикс для очень высоких фото */
+@media (min-width: 769px) {
+  .about__photos {
+    max-height: 600px; /* Ограничиваем максимальную высоту */
+  }
+  
+  .photo-item {
+    max-height: 530px; /* Фиксируем высоту фото */
+  }
 }
 
-/* Мобильная версия меню */
-@media (max-width: 768px) {
+/* ===== DARK MODE SUPPORT ===== */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text-color: #f0f0f0;
+    --text-light: #b0b0b0;
+    --bg-light: #2a2a2a;
+    --white: #1a1a1a;
+    --gray-light: #444;
+    --gray-lighter: #555;
+    --shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    --shadow-hover: 0 10px 25px rgba(0, 0, 0, 0.4);
+  }
+  
+  .hero {
+    background: linear-gradient(135deg, #3a3a3a 0%, #2a1a35 100%);
+  }
+  
+  .project__card,
+  .skill__item {
+    background: #333;
+  }
+  
+  .project__tags span {
+    background: #444;
+    color: #ddd;
+  }
+}
+
+/* ===== ACCESSIBILITY IMPROVEMENTS ===== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  html {
+    scroll-behavior: auto;
+  }
+  
+  .hero::before {
+    animation: none;
+  }
+}
+
+/* ===== HIGH DPI SUPPORT ===== */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .logo {
+    background-image: url('image/logo@2x.jpeg');
+    background-size: contain;
+  }
+}
+
+/* ===== PRINT STYLES ===== */
+@media print {
+  * {
+    background: transparent !important;
+    color: black !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+  
+  .header,
+  .footer,
+  .button,
+  .project__link,
   .menu-toggle {
-    display: flex;
+    display: none !important;
   }
   
-  .menu {
-    position: fixed;
-    top: 0;
-    right: -100%;
-    width: 80%;
-    max-width: 300px;
-    height: 100vh;
-    background: var(--white);
-    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
-    transition: right var(--transition-normal);
-    z-index: 999;
-    padding: 80px 20px 20px;
-    overflow-y: auto;
+  body {
+    font-size: 12pt;
+    line-height: 1.5;
   }
   
-  .menu.active {
-    right: 0;
+  a {
+    text-decoration: underline;
   }
   
-  .menu__list {
-    flex-direction: column;
-    gap: 0;
-  }
-  
-  .menu__list-item {
-    width: 100%;
-  }
-  
-  .menu__list-link {
-    display: block;
-    padding: 15px;
-    font-size: 1.1rem;
-    border-bottom: 1px solid var(--gray-light);
-    text-align: left;
-    border-radius: 0;
-  }
-  
-  .menu__list-link:hover {
-    background: var(--gray-lighter);
-  }
-  
-  /* Затемнение фона */
-  .menu-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    opacity: 0;
-    visibility: hidden;
-    transition: all var(--transition-normal);
-    z-index: 998;
-  }
-  
-  .menu-overlay.active {
-    opacity: 1;
-    visibility: visible;
-  }
-  
-  /* Уменьшаем хедер на мобильных */
-  .header {
-    padding: 10px 0;
-  }
-  
-  .logo {
-    width: 50px;
-    height: 50px;
+  .container {
+    max-width: none;
   }
 }
 
-/* Для очень маленьких экранов */
-@media (max-width: 480px) {
-  .menu {
-    width: 85%;
-  }
-  
-  .header__inner {
-    padding: 0 10px;
-  }
-  
-  .logo {
-    width: 45px;
-    height: 45px;
-  }
+/* ===== PERFORMANCE OPTIMIZATIONS ===== */
+.will-change {
+  will-change: transform, opacity;
 }
 
-/* Плавная анимация для всего меню */
-.menu__list-link {
-  transition: all var(--transition-fast);
+.backface-hidden {
+  backface-visibility: hidden;
+}
+
+/* ===== LOADING STATES ===== */
+.loading {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin: -10px 0 0 -10px;
+  border: 2px solid var(--primary-color);
+  border-radius: 50%;
+  border-top-color: transparent;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ===== CUSTOM PROPERTY FALLBACKS ===== */
+@supports not (color: color-mix(in srgb, black, white)) {
+  .project__link:hover {
+    background: #1a6a8a; /* Darker version of primary color */
+  }
 }

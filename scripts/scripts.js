@@ -106,36 +106,34 @@ function adjustCaptionSize() {
 function initPhotoStackInteractions() {
   const photoStacks = document.querySelectorAll('.photo-stack');
   
-  if (Utils.isTouchDevice()) {
-    photoStacks.forEach(stack => {
-      const handleStackClick = (e) => {
-        // Предотвращаем все стандартные поведения
+  photoStacks.forEach(stack => {
+    const handleStackClick = (e) => {
+      // Для touch-устройств предотвращаем стандартное поведение
+      if (Utils.isTouchDevice()) {
         e.preventDefault();
-        e.stopPropagation();
-        e.stopImmediatePropagation();
-        
-        stack.classList.toggle('mobile-active');
-        
-        // Блокируем дальнейшие события на короткое время
-        stack.style.pointerEvents = 'none';
-        setTimeout(() => {
-          stack.style.pointerEvents = 'auto';
-        }, 300);
-      };
-      
-      // Удаляем старые обработчики если есть
-      if (stack._clickHandler) {
-        stack.removeEventListener('click', stack._clickHandler);
-        stack.removeEventListener('touchstart', stack._clickHandler);
       }
       
-      // Добавляем новые обработчики
-      stack.addEventListener('click', handleStackClick, { passive: false });
-      stack.addEventListener('touchstart', handleStackClick, { passive: false });
+      stack.classList.toggle('mobile-active');
       
-      stack._clickHandler = handleStackClick;
-    });
-  }
+      // Блокируем дальнейшие события на короткое время
+      stack.style.pointerEvents = 'none';
+      setTimeout(() => {
+        stack.style.pointerEvents = 'auto';
+      }, 300);
+    };
+    
+    // Удаляем старые обработчики если есть
+    if (stack._clickHandler) {
+      stack.removeEventListener('click', stack._clickHandler);
+      stack.removeEventListener('touchstart', stack._clickHandler);
+    }
+    
+    // Добавляем обработчики для всех устройств
+    stack.addEventListener('click', handleStackClick);
+    stack.addEventListener('touchstart', handleStackClick, { passive: false });
+    
+    stack._clickHandler = handleStackClick;
+  });
 }
 
 // Обработчик ошибок загрузки изображения
@@ -234,6 +232,7 @@ function cleanup() {
 }
 
 // Функция для мобильного меню
+// Функция для мобильного меню
 function initMobileMenu() {
   const menuToggle = document.querySelector('.menu-toggle');
   const menu = document.querySelector('.menu');
@@ -254,7 +253,11 @@ function initMobileMenu() {
   };
   
   // Обработчики событий
-  menuToggle.addEventListener('click', toggleMenu);
+  menuToggle.addEventListener('click', (e) => {
+    e.stopPropagation();
+    toggleMenu();
+  });
+  
   overlay.addEventListener('click', toggleMenu);
   
   // Закрытие меню при клике на ссылку
@@ -275,11 +278,19 @@ function initMobileMenu() {
   };
   
   window.addEventListener('resize', handleResize);
+  
+  // Закрытие меню при клике вне меню
+  document.addEventListener('click', (e) => {
+    if (menu.classList.contains('active') && 
+        !menu.contains(e.target) && 
+        !menuToggle.contains(e.target)) {
+      toggleMenu();
+    }
+  });
 }
 
-// Обновите функцию initApp()
 function initApp() {
-  // Предзагрузка изображений (опционально)
+  // Предзагрузка изображений
   IMAGES_CONFIG.paths.forEach(path => {
     const img = new Image();
     img.src = path;
@@ -291,7 +302,7 @@ function initApp() {
   
   // Инициализация взаимодействий
   initPhotoStackInteractions();
-  initMobileMenu(); // Добавляем инициализацию меню
+  initMobileMenu(); // Это должно быть здесь
   
   // Настройка адаптивности
   adjustCaptionSize();
@@ -302,5 +313,4 @@ function initApp() {
   
   console.log('Приложение инициализировано успешно');
 }
-
 

@@ -179,70 +179,6 @@ function showRandomImage() {
   }, 50);
 }
 
-// Инициализация приложения
-function initApp() {
-  // Предзагрузка изображений (опционально)
-  IMAGES_CONFIG.paths.forEach(path => {
-    const img = new Image();
-    img.src = path;
-  });
-  
-  // Настройка обработчиков
-  DOM.image.addEventListener('error', handleImageError);
-  DOM.button.addEventListener('click', showRandomImage);
-  
-  // Инициализация взаимодействий
-  initPhotoStackInteractions();
-  
-  // Настройка адаптивности
-  adjustCaptionSize();
-  window.addEventListener('resize', Utils.debounce(adjustCaptionSize, 250));
-  
-  // Добавляем класс для плавной анимации
-  document.body.classList.add('loaded');
-  
-  console.log('Приложение инициализировано успешно');
-  initMobileMenu(); // Добавьте эту строку
-}
-
-// Запуск приложения после загрузки DOM
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initApp);
-} else {
-  initApp();
-}
-
-// Очистка (для SPA или если нужно перезагрузить)
-function cleanup() {
-  DOM.image.removeEventListener('error', handleImageError);
-  DOM.button.removeEventListener('click', showRandomImage);
-  window.removeEventListener('resize', Utils.debounce(adjustCaptionSize, 250));
-  
-  // Удаляем обработчики с photo stacks
-  DOM.photoStacks.forEach(stack => {
-    if (stack._clickHandler) {
-      stack.removeEventListener('click', stack._clickHandler);
-    }
-  });
-  
-  document.body.classList.remove('loaded');
-
-    // Очистка меню
-  const menuToggle = document.querySelector('.menu-toggle');
-  const overlay = document.querySelector('.menu-overlay');
-  const menu = document.querySelector('.menu');
-  
-  if (menuToggle) {
-    menuToggle.removeEventListener('click', toggleMenu);
-  }
-  
-  if (overlay) {
-    overlay.removeEventListener('click', toggleMenu);
-  }
-  
-  window.removeEventListener('resize', handleResize);
-}
-
 // Функция для мобильного меню
 function initMobileMenu() {
   const menuToggle = document.querySelector('.menu-toggle');
@@ -290,20 +226,51 @@ function initMobileMenu() {
   window.addEventListener('resize', handleResize);
 }
 
-
-// Инициализация мобильного меню при загрузке
-document.addEventListener('DOMContentLoaded', function() {
-  initMobileMenu();
-});
-if (document.querySelector('.robin-project')) {
-  document.addEventListener('DOMContentLoaded', function() {
-    initMobileMenu();
+// Инициализация приложения
+function initApp() {
+  // Предзагрузка изображений (опционально)
+  IMAGES_CONFIG.paths.forEach(path => {
+    const img = new Image();
+    img.src = path;
   });
+  
+  // Настройка обработчиков
+  if (DOM.image) DOM.image.addEventListener('error', handleImageError);
+  if (DOM.button) DOM.button.addEventListener('click', showRandomImage);
+  
+  // Инициализация взаимодействий
+  initPhotoStackInteractions();
+  
+  // Настройка адаптивности
+  adjustCaptionSize();
+  window.addEventListener('resize', Utils.debounce(adjustCaptionSize, 250));
+  
+  // Добавляем класс для плавной анимации
+  document.body.classList.add('loaded');
+  
+  console.log('Приложение инициализировано успешно');
 }
 
-// Явная инициализация для страницы Robin Project
-if (window.location.pathname.includes('robin-project.html') || 
-    document.querySelector('.robin-project')) {
-  console.log('Это страница Robin Project, инициализируем меню');
-  document.addEventListener('DOMContentLoaded', initMobileMenu);
+// Запуск приложения после загрузки DOM
+document.addEventListener('DOMContentLoaded', function() {
+  initApp();
+  initMobileMenu(); // Инициализируем мобильное меню
+});
+
+// Очистка (для SPA или если нужно перезагрузить)
+function cleanup() {
+  if (DOM.image) DOM.image.removeEventListener('error', handleImageError);
+  if (DOM.button) DOM.button.removeEventListener('click', showRandomImage);
+  window.removeEventListener('resize', Utils.debounce(adjustCaptionSize, 250));
+  
+  // Удаляем обработчики с photo stacks
+  if (DOM.photoStacks) {
+    DOM.photoStacks.forEach(stack => {
+      if (stack._clickHandler) {
+        stack.removeEventListener('click', stack._clickHandler);
+      }
+    });
+  }
+  
+  document.body.classList.remove('loaded');
 }

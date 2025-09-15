@@ -295,3 +295,15 @@ function initMobileMenu() {
 document.addEventListener('DOMContentLoaded', function() {
   initMobileMenu();
 });
+if (document.querySelector('.robin-project')) {
+  document.addEventListener('DOMContentLoaded', function() {
+    initMobileMenu();
+  });
+}
+
+// Явная инициализация для страницы Robin Project
+if (window.location.pathname.includes('robin-project.html') || 
+    document.querySelector('.robin-project')) {
+  console.log('Это страница Robin Project, инициализируем меню');
+  document.addEventListener('DOMContentLoaded', initMobileMenu);
+}

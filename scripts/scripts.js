@@ -232,13 +232,16 @@ function cleanup() {
 }
 
 // Функция для мобильного меню
+// Функция для мобильного меню
 function initMobileMenu() {
   const menuToggle = document.querySelector('.menu-toggle');
   const menu = document.querySelector('.menu');
   const body = document.body;
 
+  // Если элементы не найдены (например, на странице нет меню), выходим из функции
   if (!menuToggle || !menu) return;
 
+  // Проверяем, не создан ли уже overlay, если нет - создаем
   let overlay = document.querySelector('.menu-overlay');
   if (!overlay) {
     overlay = document.createElement('div');
@@ -246,37 +249,52 @@ function initMobileMenu() {
     document.body.appendChild(overlay);
   }
 
-  const toggleMenu = () => { ... }; // Ваша функция toggleMenu
+  // Основная функция переключения меню
+  const toggleMenu = () => {
+    menuToggle.classList.toggle('active');
+    menu.classList.toggle('active');
+    overlay.classList.toggle('active');
+    // Блокируем прокрутку тела сайта при открытом меню
+    body.style.overflow = menu.classList.contains('active') ? 'hidden' : '';
+  };
 
-  // 1. Клик по бургеру
+  // 1. Обработчик для кнопки бургера
   menuToggle.addEventListener('click', (e) => {
-    e.stopPropagation();
+    e.stopPropagation(); // Останавливаем всплытие события, чтобы оно не достигло overlay
     toggleMenu();
   });
 
-  // 2. Клик по оверлею (пустому пространству) -> закрыть меню
+  // 2. Обработчик для оверлея: закрываем меню при клике на ПУСТОЕ пространство (оверлей)
   overlay.addEventListener('click', (e) => {
+    // Закрываем меню только если кликнули именно на overlay, а не на его дочерний элемент (меню)
     if (e.target === overlay) {
       toggleMenu();
     }
   });
 
-  // 3. Клик по самой области меню (ul) -> остановить всплытие, ничего не делать
+  // 3. САМОЕ ВАЖНОЕ: Обработчик для кликов по самому меню
   menu.addEventListener('click', (e) => {
+    // Останавливаем всплытие события. Клик по меню не дойдет до overlay.
     e.stopPropagation();
   });
 
-  // 4. КЛИК ПО ССЫЛКЕ В МЕНЮ -> остановить всплытие и закрыть меню
-  const menuLinks = menu.querySelectorAll('.menu__list-link');
-  menuLinks.forEach(link => {
-    link.addEventListener('click', function(e) {
-      e.stopPropagation();
-      toggleMenu();
-    });
+  // 4. Обработчик для кликов по ссылкам в меню
+const menuLinks = menu.querySelectorAll('.menu__list-link');
+menuLinks.forEach(link => {
+  link.addEventListener('click', function(e) {
+    // Останавливаем всплытие события, чтобы оно не достигло оверлея
+    e.stopPropagation();
+    // Закрываем меню после клика по ссылке
+    toggleMenu();
   });
+});
 
-  // 5. Закрытие меню при ресайзе
-  const handleResize = () => { ... }; // Ваш обработчик ресайза
+// 5. Обработчик для кликов по самому меню (ul)
+menu.addEventListener('click', function(e) {
+  // Останавливаем всплытие события, чтобы клик по любому месту внутри меню (но не по ссылке) не доходил до оверлея
+  e.stopPropagation();
+});
+
   window.addEventListener('resize', handleResize);
 }
 

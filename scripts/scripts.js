@@ -220,89 +220,79 @@ function cleanup() {
   document.body.classList.remove('loaded');
 
     // Очистка меню
-    const overlay = document.querySelector('.menu-overlay');
-    if (overlay) {
-      overlay.remove();
-    }
-    
-    const menuToggle = document.querySelector('.menu-toggle');
-    if (menuToggle) {
-      menuToggle.removeEventListener('click', toggleMenu);
-    }
+  const menuToggle = document.querySelector('.menu-toggle');
+  const overlay = document.querySelector('.menu-overlay');
+  const menu = document.querySelector('.menu');
+  
+  if (menuToggle) {
+    menuToggle.removeEventListener('click', toggleMenu);
+  }
+  
+  if (overlay) {
+    overlay.removeEventListener('click', toggleMenu);
+  }
+  
+  window.removeEventListener('resize', handleResize);
 }
 
 // Функция для мобильного меню
 function initMobileMenu() {
   const menuToggle = document.querySelector('.menu-toggle');
   const menu = document.querySelector('.menu');
+  const overlay = document.querySelector('.menu-overlay');
   const body = document.body;
 
-  // Если элементов меню на странице нет (например, на странице проекта), просто выходим из функции
-  if (!menuToggle || !menu) return;
-
-  // Создаем или находим overlay
-  let overlay = document.querySelector('.menu-overlay');
-  if (!overlay) {
-    overlay = document.createElement('div');
-    overlay.className = 'menu-overlay';
-    document.body.appendChild(overlay);
-  }
+  // Если элементов меню на странице нет, выходим
+  if (!menuToggle || !menu || !overlay) return;
 
   // Основная функция переключения меню
   const toggleMenu = () => {
     menuToggle.classList.toggle('active');
     menu.classList.toggle('active');
     overlay.classList.toggle('active');
-    // Блокируем прокрутку тела сайта при открытом меню
     body.style.overflow = menu.classList.contains('active') ? 'hidden' : '';
   };
 
   // 1. Обработчик для кнопки бургера
   menuToggle.addEventListener('click', (e) => {
-    e.stopPropagation(); // Останавливаем всплытие события
+    e.stopPropagation();
     toggleMenu();
   });
 
-  // 2. Обработчик для оверлея: закрываем меню при клике на ПУСТОЕ пространство (оверлей)
+  // 2. Обработчик для оверлея
   overlay.addEventListener('click', (e) => {
-    // Закрываем меню только если кликнули именно на overlay, а не на его дочерний элемент (меню)
     if (e.target === overlay) {
       toggleMenu();
     }
   });
 
-  // 3. САМОЕ ВАЖНОЕ: Обработчик для кликов по ссылкам в меню
+  // 3. Обработчик для ссылок в меню
   const menuLinks = menu.querySelectorAll('.menu__list-link');
   menuLinks.forEach(link => {
     link.addEventListener('click', function(e) {
-      // 1. Сразу закрываем меню
       toggleMenu();
       
-      // 2. (Опционально) Если это якорная ссылка (начинается с #) на этой же странице,
-      // даем время меню анимированно закрыться перед скроллом.
+      // Для якорных ссылок на этой же странице
       if (this.getAttribute('href').startsWith('#')) {
-        e.preventDefault(); // Отменяем мгновенный скролл
+        e.preventDefault();
         const targetId = this.getAttribute('href');
         const targetElement = document.querySelector(targetId);
         
-        // Ждем немного, чтобы меню успело закрыться
         setTimeout(() => {
           if (targetElement) {
             targetElement.scrollIntoView({ behavior: 'smooth' });
           }
-        }, 300); // Время должно совпадать с длительностью анимации закрытия меню
+        }, 300);
       }
-      // Для всех остальных ссылок (например, './robin-project.html') браузер перейдет по ним автоматически после закрытия меню.
     });
   });
 
-  // 4. Обработчик для кликов по самому меню (ul)
+  // 4. Обработчик для кликов по самому меню
   menu.addEventListener('click', function(e) {
-    // Останавливаем всплытие события, чтобы клик по любому месту внутри меню (но не по ссылке) не доходил до оверлея
     e.stopPropagation();
   });
 
-  // 5. Обработчик для изменения размера окна (закрываем меню при увеличении окна)
+  // 5. Закрываем меню при изменении размера окна
   const handleResize = () => {
     if (window.innerWidth > 768 && menu.classList.contains('active')) {
       toggleMenu();

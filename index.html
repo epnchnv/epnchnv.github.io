@@ -39,28 +39,31 @@
           </a>
           
           <!-- Добавляем бургер-кнопку -->
-          <div class="menu-container"> <!-- Новый контейнер -->
-            <button class="menu-toggle" aria-label="Открыть меню">
-              <span></span>
-              <span></span>
-              <span></span>
-            </button>
-            
-            <nav class="menu">
-              <ul class="menu__list">
-                <li class="menu__list-item">
-                  <a class="menu__list-link" href="./index.html#about">Обо мне</a>
-                </li>
-                <li class="menu__list-item">
-                  <a class="menu__list-link" href="./index.html#projects">Проекты</a>
-                </li>
-                <li class="menu__list-item">
-                  <a class="menu__list-link active" href="./robin-project.html">Robin Project</a>
-                </li>
-              </ul>
-            </nav>
-            <div class="menu-overlay"></div> <!-- Оверлей ВНУТРИ контейнера -->
-          </div>
+          <!-- В хедере меняем структуру меню -->
+<div class="menu-container">
+  <button class="menu-toggle" aria-label="Открыть меню">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+  
+  <!-- Переносим оверлей ВНУТРЬ контейнера меню -->
+  <div class="menu-overlay"></div>
+  
+  <nav class="menu">
+    <ul class="menu__list">
+      <li class="menu__list-item">
+        <a class="menu__list-link" href="./index.html#about">Обо мне</a>
+      </li>
+      <li class="menu__list-item">
+        <a class="menu__list-link" href="./index.html#projects">Проекты</a>
+      </li>
+      <li class="menu__list-item">
+        <a class="menu__list-link active" href="./robin-project.html">Robin Project</a>
+      </li>
+    </ul>
+  </nav>
+</div>
 
         </div>
       </div>

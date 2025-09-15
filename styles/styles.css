@@ -39,9 +39,9 @@
   --transition-slow: 0.5s ease;
   
   /* Z-index layers */
-  --z-overlay: 998;
-  --z-menu: 999;
-  --z-toggle: 1000;
+  --z-overlay: 1000;
+  --z-menu: 1001;
+  --z-toggle: 1002;
 }
 
 /* Reset & Base */
@@ -332,6 +332,152 @@ button:focus-visible {
 }
 
 /* ===== ABOUT SECTION ===== */
+/* ===== IMPROVED ABOUT SECTION ===== */
+.about__content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-xl);
+  align-items: start;
+}
+
+.about__intro {
+  margin-bottom: var(--space-lg);
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.journey {
+  margin-bottom: var(--space-lg);
+}
+
+.journey-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-md);
+  margin-bottom: var(--space-md);
+  padding: var(--space-md);
+  background: var(--white);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow);
+  transition: transform var(--transition-normal);
+}
+
+.journey-item:hover {
+  transform: translateY(-2px);
+}
+
+.journey-icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.journey-content h3 {
+  margin-bottom: var(--space-xs);
+  font-size: 1.1rem;
+  color: var(--primary-color);
+}
+
+.journey-content p {
+  color: var(--text-light);
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+.about__highlight {
+  background: linear-gradient(135deg, var(--accent-color) 0%, var(--secondary-color) 100%);
+  padding: var(--space-lg);
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--space-lg);
+  color: var(--white);
+  text-align: center;
+}
+
+.about__highlight p {
+  margin: 0;
+  font-weight: 500;
+}
+
+.inspiration h3 {
+  margin-bottom: var(--space-md);
+  text-align: center;
+  color: var(--primary-color);
+}
+
+.inspiration-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-md);
+}
+
+.inspiration-card {
+  background: var(--white);
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  text-align: center;
+  box-shadow: var(--shadow);
+  transition: all var(--transition-normal);
+}
+
+.inspiration-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-hover);
+}
+
+.inspiration-emoji {
+  font-size: 2rem;
+  display: block;
+  margin-bottom: var(--space-sm);
+}
+
+.inspiration-card p {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-color);
+}
+
+/* Mobile styles for improved about section */
+@media (max-width: 768px) {
+  .about__content {
+    grid-template-columns: 1fr;
+    gap: var(--space-lg);
+  }
+  
+  .about__photos {
+    order: -1;
+    margin-bottom: var(--space-lg);
+  }
+  
+  .journey-item {
+    flex-direction: column;
+    text-align: center;
+    gap: var(--space-sm);
+  }
+  
+  .inspiration-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-sm);
+  }
+  
+  .inspiration-card {
+    padding: var(--space-md);
+  }
+}
+
+@media (max-width: 480px) {
+  .journey-item {
+    padding: var(--space-sm);
+  }
+  
+  .about__highlight {
+    padding: var(--space-md);
+  }
+  
+  .inspiration-card {
+    padding: var(--space-sm);
+  }
+}
+
 .about {
   background: var(--bg-light);
   padding-bottom: var(--space-xxl); /* Увеличиваем отступ снизу */
@@ -711,6 +857,7 @@ button:focus-visible {
   /* Mobile menu */
   .menu-toggle {
     display: flex;
+    z-index: var(--z-toggle);
   }
   
   .menu {
@@ -762,11 +909,13 @@ button:focus-visible {
     visibility: hidden;
     transition: all var(--transition-normal);
     z-index: var(--z-overlay);
+    pointer-events: none;
   }
   
   .menu-overlay.active {
     opacity: 1;
     visibility: visible;
+    pointer-events: auto;
   }
   
   /* Header adjustments */

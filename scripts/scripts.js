@@ -232,7 +232,6 @@ function cleanup() {
 }
 
 // Функция для мобильного меню
-// Функция для мобильного меню
 function initMobileMenu() {
   const menuToggle = document.querySelector('.menu-toggle');
   const menu = document.querySelector('.menu');
@@ -240,10 +239,13 @@ function initMobileMenu() {
   
   if (!menuToggle || !menu) return;
   
-  // Создаем overlay для затемнения фона
-  const overlay = document.createElement('div');
-  overlay.className = 'menu-overlay';
-  document.body.appendChild(overlay);
+  // Проверяем, не создан ли уже overlay
+  let overlay = document.querySelector('.menu-overlay');
+  if (!overlay) {
+    overlay = document.createElement('div');
+    overlay.className = 'menu-overlay';
+    document.body.appendChild(overlay);
+  }
   
   const toggleMenu = () => {
     menuToggle.classList.toggle('active');
@@ -251,6 +253,10 @@ function initMobileMenu() {
     overlay.classList.toggle('active');
     body.style.overflow = menu.classList.contains('active') ? 'hidden' : '';
   };
+  
+  // Удаляем старые обработчики если есть
+  menuToggle.removeEventListener('click', toggleMenu);
+  overlay.removeEventListener('click', toggleMenu);
   
   // Обработчики событий
   menuToggle.addEventListener('click', (e) => {
@@ -278,39 +284,9 @@ function initMobileMenu() {
   };
   
   window.addEventListener('resize', handleResize);
-  
-  // Закрытие меню при клике вне меню
-  document.addEventListener('click', (e) => {
-    if (menu.classList.contains('active') && 
-        !menu.contains(e.target) && 
-        !menuToggle.contains(e.target)) {
-      toggleMenu();
-    }
-  });
 }
 
-function initApp() {
-  // Предзагрузка изображений
-  IMAGES_CONFIG.paths.forEach(path => {
-    const img = new Image();
-    img.src = path;
-  });
-  
-  // Настройка обработчиков
-  DOM.image.addEventListener('error', handleImageError);
-  DOM.button.addEventListener('click', showRandomImage);
-  
-  // Инициализация взаимодействий
-  initPhotoStackInteractions();
-  initMobileMenu(); // Это должно быть здесь
-  
-  // Настройка адаптивности
-  adjustCaptionSize();
-  window.addEventListener('resize', Utils.debounce(adjustCaptionSize, 250));
-  
-  // Добавляем класс для плавной анимации
-  document.body.classList.add('loaded');
-  
-  console.log('Приложение инициализировано успешно');
-}
-
+// Инициализация мобильного меню при загрузке
+document.addEventListener('DOMContentLoaded', function() {
+  initMobileMenu();
+});

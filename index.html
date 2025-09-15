@@ -30,37 +30,37 @@
 <body>
   
   <div class="main-content">
-  <!-- Добавляем шапку сайта -->
-  <header class="header">
-    <div class="container">
-      <div class="header__inner">
-        <a href="./index.html">
-          <img class="logo" src="image/logo.jpeg" alt="Логотип">
-        </a>
-        
-        <!-- Добавляем бургер-кнопку -->
-        <button class="menu-toggle" aria-label="Открыть меню">
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
-        
-        <nav class="menu">
-          <ul class="menu__list">
-            <li class="menu__list-item">
-              <a class="menu__list-link" href="./index.html#about">Обо мне</a>
-            </li>
-            <li class="menu__list-item">
-              <a class="menu__list-link" href="./index.html#projects">Проекты</a>
-            </li>
-            <li class="menu__list-item">
-              <a class="menu__list-link active" href="./robin-project.html">Robin Project</a>
-            </li>
-          </ul>
-        </nav>
+    <!-- Шапка -->
+    <header class="header">
+      <div class="container">
+        <div class="header__inner">
+          <a href="./index.html">
+            <img class="logo" src="image/logo.jpeg" alt="Логотип">
+          </a>
+          
+          <!-- Добавляем бургер-кнопку -->
+          <button class="menu-toggle" aria-label="Открыть меню">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+          
+          <nav class="menu">
+            <ul class="menu__list">
+              <li class="menu__list-item">
+                <a class="menu__list-link" href="./index.html#about">Обо мне</a>
+              </li>
+              <li class="menu__list-item">
+                <a class="menu__list-link" href="./index.html#projects">Проекты</a>
+              </li>
+              <li class="menu__list-item">
+                <a class="menu__list-link active" href="./robin-project.html">Robin Project</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
       </div>
-    </div>
-  </header>
+    </header>
 
   <!-- Главный герой-секция -->
   <section class="hero">
@@ -74,70 +74,12 @@
   </section>
 
      <!-- Секция "Обо мне" -->
-     <section id="about" class="about">
-      <div class="container">
-          <h2 class="section__title">Обо мне</h2>
-          <div class="about__content">
-              <div class="about__text">
-                  <p>👋 Привет! Я Анжелика, и мой профессиональный путь демонстрирует, как разнообразный опыт может стать преимуществом в IT.</p>
-                  
-                  <div class="journey-item">
-                      <div class="journey-icon">🔬</div>
-                      <div>
-                          <h3>Начинала как физик</h3>
-                          <p>Исследовала мощные лазеры на гетероструктурах, что развило аналитическое мышление и внимание к деталям.</p>
-                      </div>
-                  </div>
-                  
-                  <div class="journey-item">
-                      <div class="journey-icon">🤖</div>
-                      <div>
-                          <h3>Автоматический тестировщик на Java</h3>
-                          <p>Перенесла любовь к точности в IT, обеспечивая качество программного обеспечения через автоматизированное тестирование.</p>
-                      </div>
-                  </div>
-                  
-                  <div class="journey-item">
-                      <div class="journey-icon">💻</div>
-                      <div>
-                          <h3>Осваиваю веб-разработку</h3>
-                          <p>Открываю для себя творческую сторону программирования, создавая визуально привлекательные и функциональные интерфейсы.</p>
-                      </div>
-                  </div>
-                  
-                  <div class="highlight">
-                      <p>Мой бэкграунд не связан напрямую с веб-разработкой, но именно это делает мой взгляд уникальным — я сочетаю научный подход физика, дотошность тестировщика и страсть к созданию красивых интерфейсов.</p>
-                  </div>
-                  
-                  <h3>Мои источники вдохновения:</h3>
-                  <div class="inspiration-list">
-                      <div class="inspiration-item">
-                          <div class="inspiration-icon">🐕</div>
-                          <div>
-                              <p><strong>Моя собака Робин</strong>, которая не только стала музой для моего первого проекта, но и ежедневно напоминает о важности perseverance и любви к своему делу.</p>
-                          </div>
-                      </div>
-                      
-                      <div class="inspiration-item">
-                          <div class="inspiration-icon">🏛️</div>
-                          <div>
-                              <p><strong>Санкт-Петербург</strong> — город, где я живу и который напоминает, что прекрасное должно быть и функциональным.</p>
-                          </div>
-                      </div>
-                      
-                      <div class="inspiration-item">
-                          <div class="inspiration-icon">✨</div>
-                          <div>
-                              <p><strong>Радость от создания чего-то нового</strong> своими руками, что приносит удовлетворение и мотивирует развиваться дальше.</p>
-                          </div>
-                      </div>
-                  </div>
-                  
-                  <div class="conclusion">
-                      <p>💡 Этот сайт — мой первый проект в веб-разработке, и для меня это начало нового захватывающего пути, где я могу объединить все свои навыки и passions.</p>
-                  </div>
-              </div>
+<section id="about" class="about">
+  <div class="container">
+    <h2 class="section__title">Обо мне</h2>
+    <div class="about__content">
       
+      <!-- Блок с фото (теперь слева) -->
       <div class="about__photos">
         <div class="photo-stack">
           <div class="photo-item photo-1">
@@ -152,9 +94,64 @@
           </div>
         </div>
       </div>
-    </div> <!-- Закрываем about__content -->
-  </div> <!-- Закрываем container -->
-</section> <!-- Закрываем section -->
+
+      <!-- Блок с текстом (теперь справа) -->
+      <div class="about__text">
+        <div class="about__intro">
+          <p>👋 Привет! Я Анжелика, и мой профессиональный путь демонстрирует, как разнообразный опыт может стать преимуществом в IT.</p>
+        </div>
+
+        <div class="journey">
+          <div class="journey-item">
+            <div class="journey-icon">🔬</div>
+            <div class="journey-content">
+              <h3>Начинала как физик</h3>
+              <p>Исследовала мощные лазеры на гетероструктурах</p>
+            </div>
+          </div>
+          
+          <div class="journey-item">
+            <div class="journey-icon">🤖</div>
+            <div class="journey-content">
+              <h3>Автоматический тестировщик</h3>
+              <p>Обеспечивала качество ПО через автоматизированное тестирование</p>
+            </div>
+          </div>
+          
+          <div class="journey-item">
+            <div class="journey-icon">💻</div>
+            <div class="journey-content">
+              <h3>Осваиваю веб-разработку</h3>
+              <p>Создаю визуально привлекательные и функциональные интерфейсы</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="about__highlight">
+          <p>💡 Сочетаю научный подход физика, дотошность тестировщика и страсть к созданию красивых интерфейсов.</p>
+        </div>
+
+        <div class="inspiration">
+          <h3>Мои источники вдохновения:</h3>
+          <div class="inspiration-grid">
+            <div class="inspiration-card">
+              <span class="inspiration-emoji">🐕</span>
+              <p>Моя собака Робин</p>
+            </div>
+            <div class="inspiration-card">
+              <span class="inspiration-emoji">🏛️</span>
+              <p>Санкт-Петербург</p>
+            </div>
+            <div class="inspiration-card">
+              <span class="inspiration-emoji">✨</span>
+              <p>Создание нового</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
   <!-- Секция "Проекты" -->
   <section id="projects" class="projects">

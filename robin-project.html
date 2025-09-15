@@ -23,12 +23,19 @@
           </a>
           
           <!-- Добавляем бургер-кнопку -->
-          <div class="menu-container"> <!-- Новый контейнер -->
-            <button class="menu-toggle" aria-label="Открыть меню">
-              <span></span>
-              <span></span>
-              <span></span>
-            </button>
+          <div class="menu-container">
+            <div class="mobile-menu-controls">
+              <button class="menu-toggle" aria-label="Открыть меню">
+                <span class="menu-toggle__icon">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </span>
+              </button>
+              <span class="menu-label">Меню</span>
+            </div>
+            
+            <div class="menu-overlay"></div>
             
             <nav class="menu">
               <ul class="menu__list">
@@ -43,7 +50,6 @@
                 </li>
               </ul>
             </nav>
-            <div class="menu-overlay"></div> <!-- Оверлей ВНУТРИ контейнера -->
           </div>
 
         </div>

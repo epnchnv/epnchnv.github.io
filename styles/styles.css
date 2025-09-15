@@ -849,6 +849,43 @@ button:focus-visible {
   opacity: 1;
 }
 
+/* Robin Project Dark Theme */
+@media (prefers-color-scheme: dark) {
+
+  .project-header {
+    background: linear-gradient(135deg, #2a2a2a 0%, #1a1a2a 100%);
+    color: #e5e7eb; /* Светлый текст для заголовка */
+  }
+
+  .project-main {
+    background: linear-gradient(135deg, #2a2a2a 0%, #1a1a2a 100%);
+  }
+
+  .button {
+    border: 2px solid rgba(202, 162, 226, 0.6);
+    background-color: rgba(239, 202, 237, 0.6);
+    color: #e5e7eb;
+    box-shadow: 1px 1px 2px rgba(202, 162, 226, 0.6);
+  
+    
+  }
+  .button:hover {
+    box-shadow: 2px 2px 4px rgba(202, 162, 226, 0.8);
+    background-color: rgba(239, 202, 237, 0.8);
+  }
+  
+  #figcaption {
+    background-color: rgba(239, 202, 237, 0.6);
+    color: #e5e7eb;
+    box-shadow: 1px 1px 2px rgba(202, 162, 226, 0.6);
+    border: 2px solid rgba(202, 162, 226, 0.6);
+  }
+  
+  .project-header__subtitle {
+    color: #d1d5db; /* Светло-серый для подзаголовка */
+  }
+}
+
 /* ===== FOOTER ===== */
 .footer {
   background: var(--bg-dark);
@@ -883,6 +920,26 @@ button:focus-visible {
 .social__link:hover {
   color: #ffd700;
   transform: translateY(-3px);
+}
+
+/* ===== FOOTER DARK THEME FIX ===== */
+@media (prefers-color-scheme: dark) {
+  .footer {
+    background: #2a2a2a; /* Темный фон */
+    border-top: 1px solid #444; /* Легкая граница сверху */
+  }
+  
+  .footer__info p {
+    color: #e0e0e0; /* Светло-серый текст */
+  }
+  
+  .social__link {
+    color: #e0e0e0; /* Цвет иконок */
+  }
+  
+  .social__link:hover {
+    color: var(--secondary-color); /* При наведении используем наш акцентный цвет */
+  }
 }
 
 /* ===== MOBILE STYLES ===== */

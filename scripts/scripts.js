@@ -76,6 +76,8 @@ function adjustCaptionSize() {
   const screenWidth = window.innerWidth;
   const caption = DOM.caption;
   
+  if (!caption) return;
+  
   // Устанавливаем минимальные высоты
   const sizes = {
     container: { minHeight: '300px' },
@@ -98,12 +100,14 @@ function adjustCaptionSize() {
   }
   
   // Применяем размеры
-  DOM.imageContainer.style.minHeight = sizes.container.minHeight;
-  DOM.captionContainer.style.minHeight = sizes.caption.minHeight;
+  if (DOM.imageContainer) DOM.imageContainer.style.minHeight = sizes.container.minHeight;
+  if (DOM.captionContainer) DOM.captionContainer.style.minHeight = sizes.caption.minHeight;
 }
 
 function initPhotoStackInteractions() {
   const photoStacks = document.querySelectorAll('.photo-stack');
+  
+  if (!photoStacks.length) return;
   
   photoStacks.forEach(stack => {
     let isActive = false;
@@ -152,6 +156,8 @@ function handleImageError() {
 
 // Основная функция для показа случайного изображения и подписи
 function showRandomImage() {
+  if (!DOM.button || !DOM.image || !DOM.caption) return;
+  
   const button = DOM.button;
   const index = Utils.getRandomIndex(IMAGES_CONFIG.paths.length);
   
@@ -186,7 +192,11 @@ function initMobileMenu() {
   const overlay = document.querySelector('.menu-overlay');
   const body = document.body;
 
-  if (!menuToggle || !menu || !overlay) return;
+  // Если элементов меню нет на странице, выходим
+  if (!menuToggle || !menu || !overlay) {
+    console.log('Элементы меню не найдены на этой странице');
+    return null;
+  }
 
   const toggleMenu = () => {
     menuToggle.classList.toggle('active');
@@ -195,8 +205,9 @@ function initMobileMenu() {
     body.style.overflow = menu.classList.contains('active') ? 'hidden' : '';
   };
 
-  // Обработчик для кнопки бургера
+  // Обработчик для кнопки бургера - останавливаем всплытие
   menuToggle.addEventListener('click', (e) => {
+    e.preventDefault();
     e.stopPropagation();
     toggleMenu();
   });
@@ -211,7 +222,8 @@ function initMobileMenu() {
   // Обработчик для ссылок в меню
   const menuLinks = menu.querySelectorAll('.menu__list-link');
   menuLinks.forEach(link => {
-    link.addEventListener('click', function() {
+    link.addEventListener('click', function(e) {
+      e.stopPropagation();
       toggleMenu();
     });
   });
@@ -224,26 +236,42 @@ function initMobileMenu() {
   };
   
   window.addEventListener('resize', handleResize);
+
+  // Функция для очистки обработчиков
+  const cleanupMenu = () => {
+    menuToggle.removeEventListener('click', toggleMenu);
+    overlay.removeEventListener('click', toggleMenu);
+    menuLinks.forEach(link => {
+      link.removeEventListener('click', toggleMenu);
+    });
+    window.removeEventListener('resize', handleResize);
+  };
+
+  return cleanupMenu;
 }
 
 // Инициализация приложения
 function initApp() {
   // Предзагрузка изображений (опционально)
-  IMAGES_CONFIG.paths.forEach(path => {
-    const img = new Image();
-    img.src = path;
-  });
+  if (IMAGES_CONFIG && IMAGES_CONFIG.paths) {
+    IMAGES_CONFIG.paths.forEach(path => {
+      const img = new Image();
+      img.src = path;
+    });
+  }
   
-  // Настройка обработчиков
-  if (DOM.image) DOM.image.addEventListener('error', handleImageError);
-  if (DOM.button) DOM.button.addEventListener('click', showRandomImage);
-  
-  // Инициализация взаимодействий
-  initPhotoStackInteractions();
-  
-  // Настройка адаптивности
-  adjustCaptionSize();
-  window.addEventListener('resize', Utils.debounce(adjustCaptionSize, 250));
+  // Настройка обработчиков только для страницы Robin Project
+  if (DOM.image && DOM.button) {
+    DOM.image.addEventListener('error', handleImageError);
+    DOM.button.addEventListener('click', showRandomImage);
+    
+    // Инициализация взаимодействий только для фото-стеков
+    initPhotoStackInteractions();
+    
+    // Настройка адаптивности только для Robin Project
+    adjustCaptionSize();
+    window.addEventListener('resize', Utils.debounce(adjustCaptionSize, 250));
+  }
   
   // Добавляем класс для плавной анимации
   document.body.classList.add('loaded');
@@ -254,7 +282,14 @@ function initApp() {
 // Запуск приложения после загрузки DOM
 document.addEventListener('DOMContentLoaded', function() {
   initApp();
-  initMobileMenu(); // Инициализируем мобильное меню
+  
+  // Всегда инициализируем мобильное меню
+  const cleanupMenu = initMobileMenu();
+  
+  // Сохраняем функцию очистки для возможного использования
+  if (cleanupMenu) {
+    window.cleanupMenu = cleanupMenu;
+  }
 });
 
 // Очистка (для SPA или если нужно перезагрузить)
@@ -270,6 +305,11 @@ function cleanup() {
         stack.removeEventListener('click', stack._clickHandler);
       }
     });
+  }
+  
+  // Очищаем меню если есть функция очистки
+  if (typeof window.cleanupMenu === 'function') {
+    window.cleanupMenu();
   }
   
   document.body.classList.remove('loaded');
